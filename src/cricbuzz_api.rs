@@ -261,13 +261,16 @@ pub struct CricbuzzMiniscore {
     pub partner_ship: CricbuzzMiniscorePartnership,
     pub current_run_rate: f32,
     pub required_run_rate: f32,
-    pub last_wicket: String,
+    // TODO: Value is not always present
+    // pub last_wicket: String,
     pub match_score_details: CricbuzzMiniscoreMatchScoreDetails,
     pub latest_performance: Vec<CricbuzzMiniscoreLatestPerformance>,
     // ppData: Not parsed
-    pub match_udrs: CricbuzzMiniscoreMatchUdrs,
+    // TODO: Value is not always present
+    // pub match_udrs: CricbuzzMiniscoreMatchUdrs,
     // overSummaryList: Not parsed
-    pub overs_rem: f32,
+    // TODO: Value is not always present
+    // pub overs_rem: f32,
     pub status: String,
 }
 
