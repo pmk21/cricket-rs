@@ -6,7 +6,7 @@ use tui::{
     layout::{Constraint, Direction, Layout, Rect},
     style::{Color, Modifier, Style},
     text::{Span, Spans},
-    widgets::{Block, Borders, Paragraph, Row, Table, Tabs},
+    widgets::{Block, Borders, Paragraph, Row, Table, Tabs, Wrap},
     Frame,
 };
 
@@ -44,7 +44,14 @@ where
     B: Backend,
 {
     let chunks = Layout::default()
-        .constraints([Constraint::Length(5), Constraint::Percentage(88)].as_ref())
+        .constraints(
+            [
+                Constraint::Length(5),
+                Constraint::Percentage(50),
+                Constraint::Percentage(50),
+            ]
+            .as_ref(),
+        )
         .split(area);
 
     let curr_match = &app.matches_info[app.focused_tab as usize].cricbuzz_info;
@@ -62,7 +69,7 @@ where
     B: Backend,
 {
     let chunks = Layout::default()
-        .constraints([Constraint::Percentage(70), Constraint::Percentage(30)].as_ref())
+        .constraints([Constraint::Percentage(50), Constraint::Percentage(50)].as_ref())
         .direction(Direction::Horizontal)
         .split(area);
 
@@ -167,6 +174,57 @@ where
     ]);
 
     f.render_widget(table, chunks[0]);
+
+    // Drawing Key Stats to the right
+    let mut key_stats: Vec<Spans> = vec![];
+
+    key_stats.push(Spans::from(vec![
+        Span::styled(
+            "Partnership: ",
+            Style::default().add_modifier(Modifier::BOLD),
+        ),
+        Span::from(format!(
+            "{}({})",
+            curr_match.miniscore.partner_ship.runs, curr_match.miniscore.partner_ship.balls
+        )),
+    ]));
+
+    if let Some(l_wkt) = &curr_match.miniscore.last_wicket {
+        key_stats.push(Spans::from(vec![
+            Span::styled("Last Wkt:", Style::default().add_modifier(Modifier::BOLD)),
+            Span::from(l_wkt.as_str()),
+        ]));
+    }
+
+    if let Some(ovs_rem) = &curr_match.miniscore.overs_rem {
+        key_stats.push(Spans::from(vec![
+            Span::styled("Ovs Left: ", Style::default().add_modifier(Modifier::BOLD)),
+            Span::from(ovs_rem.to_string()),
+        ]));
+    }
+
+    key_stats.push(Spans::from(vec![
+        Span::styled("Toss: ", Style::default().add_modifier(Modifier::BOLD)),
+        Span::from(format!(
+            "{} ({})",
+            curr_match
+                .miniscore
+                .match_score_details
+                .toss_results
+                .toss_winner_name,
+            curr_match
+                .miniscore
+                .match_score_details
+                .toss_results
+                .decision
+        )),
+    ]));
+
+    let key_stats_block = Block::default().borders(Borders::ALL).title("Key Stats");
+    let key_stats_para = Paragraph::new(key_stats)
+        .block(key_stats_block)
+        .wrap(Wrap { trim: true });
+    f.render_widget(key_stats_para, chunks[1]);
 }
 
 fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
@@ -176,7 +234,7 @@ fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
     if msd.match_format == "TEST" {
         let total_inngs = msd.innings_score_list.len();
         if total_inngs == 1 {
-            if msd.innings_score_list[0].is_declared == true {
+            if msd.innings_score_list[0].is_declared {
                 scores.push(Spans::from(format!(
                     "{} {}/{} d",
                     msd.innings_score_list[0].bat_team_name.as_str(),
@@ -185,7 +243,7 @@ fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
                 )));
             } else {
                 scores.push(Spans::from(format!(
-                    "{} {}/{} d",
+                    "{} {}/{}",
                     msd.innings_score_list[0].bat_team_name.as_str(),
                     msd.innings_score_list[0].score.to_string(),
                     msd.innings_score_list[0].wickets.to_string(),
@@ -207,10 +265,12 @@ fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
 
             scores.push(Spans::from(vec![Span::styled(
                 format!(
-                    "{} {}/{}",
+                    "{} {}/{} ({}) CRR: {}",
                     bat_team_name,
                     teams[bat_team_name][0].score.to_string(),
                     teams[bat_team_name][0].wickets.to_string(),
+                    teams[bat_team_name][0].overs.to_string(),
+                    match_info.miniscore.current_run_rate.to_string(),
                 ),
                 Style::default().add_modifier(Modifier::BOLD),
             )]));
@@ -240,12 +300,14 @@ fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
 
             scores.push(Spans::from(vec![Span::styled(
                 format!(
-                    "{} {}/{} & {}/{}",
+                    "{} {}/{} & {}/{} ({}) CRR: {}",
                     bat_team_name,
                     teams[bat_team_name][0].score.to_string(),
                     teams[bat_team_name][0].wickets.to_string(),
                     teams[bat_team_name][1].score.to_string(),
                     teams[bat_team_name][1].wickets.to_string(),
+                    teams[bat_team_name][1].overs.to_string(),
+                    match_info.miniscore.current_run_rate.to_string(),
                 ),
                 Style::default().add_modifier(Modifier::BOLD),
             )]));
