@@ -19,7 +19,7 @@ use display::ui::draw_ui;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut app = App::new().await;
-    println!("{:#?}", app.matches_info[0].cricbuzz_info);
+    // println!("{:#?}", app.matches_info[0].cricbuzz_info);
 
     // UI part
     let mut stdout = io::stdout();
@@ -45,7 +45,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         break;
                     }
                     Key::Right => {
-                        app.focused_tab += 1;
+                        if app.focused_tab < ((app.matches_info.len() - 1) as u32) {
+                            app.focused_tab += 1;
+                        }
                     }
                     Key::Left => {
                         if app.focused_tab > 0 {
