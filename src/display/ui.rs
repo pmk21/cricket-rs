@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use crate::{app::App, cricbuzz_api::CricbuzzMiniscoreMatchScoreDetailsInningsScore};
 use tui::{
     backend::Backend,
-    layout::{Constraint, Layout, Rect, Direction},
+    layout::{Constraint, Direction, Layout, Rect},
     style::{Color, Modifier, Style},
     text::{Span, Spans},
     widgets::{Block, Borders, Paragraph, Row, Table, Tabs},
@@ -51,13 +51,13 @@ where
 
     let scores = get_match_summary_info(curr_match);
 
-    let summ_block = Block::default().borders(Borders::ALL).title("Summary");
+    let summ_block = Block::default().borders(Borders::ALL).title("Overview");
     let paragraph = Paragraph::new(scores).block(summ_block);
     f.render_widget(paragraph, chunks[0]);
-    draw_scorecard(f, chunks[1], app);
+    draw_live_feed(f, chunks[1], app);
 }
 
-fn draw_scorecard<B>(f: &mut Frame<B>, area: Rect, app: &App)
+fn draw_live_feed<B>(f: &mut Frame<B>, area: Rect, app: &App)
 where
     B: Backend,
 {
@@ -69,7 +69,8 @@ where
     let curr_match = &app.matches_info[app.focused_tab as usize].cricbuzz_info;
 
     let table = Table::new(vec![
-        Row::new(vec!["Batsman", "R", "B", "4", "6", "SR"]),
+        Row::new(vec!["Batsman", "R", "B", "4", "6", "SR"])
+            .style(Style::default().add_modifier(Modifier::BOLD)),
         Row::new(vec![
             curr_match.miniscore.batsman_striker.bat_name.to_string() + " *",
             curr_match.miniscore.batsman_striker.bat_runs.to_string(),
@@ -113,8 +114,10 @@ where
                 .batsman_non_striker
                 .bat_strike_rate
                 .to_string(),
-        ]),
-        Row::new(vec!["Bowler", "O", "M", "R", "W", "ECO"]),
+        ])
+        .height(2),
+        Row::new(vec!["Bowler", "O", "M", "R", "W", "ECO"])
+            .style(Style::default().add_modifier(Modifier::BOLD)),
         Row::new(vec![
             curr_match.miniscore.bowler_striker.bowl_name.to_string() + " *",
             curr_match.miniscore.bowler_striker.bowl_ovs.to_string(),
@@ -153,7 +156,7 @@ where
         ]),
     ])
     .style(Style::default().fg(Color::White))
-    .block(Block::default().borders(Borders::ALL).title("Scorecard"))
+    .block(Block::default().borders(Borders::ALL).title("Live"))
     .widths(&[
         Constraint::Length(25),
         Constraint::Length(5),
@@ -174,43 +177,19 @@ fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
         let total_inngs = msd.innings_score_list.len();
         if total_inngs == 1 {
             if msd.innings_score_list[0].is_declared == true {
-                scores.push(Spans::from(vec![
-                    Span::styled(
-                        msd.innings_score_list[0].bat_team_name.as_str(),
-                        Style::default().add_modifier(Modifier::BOLD | Modifier::ITALIC),
-                    ),
-                    Span::styled(
-                        msd.innings_score_list[0].score.to_string() + "/",
-                        Style::default().add_modifier(Modifier::BOLD | Modifier::ITALIC),
-                    ),
-                    Span::styled(
-                        msd.innings_score_list[0].wickets.to_string(),
-                        Style::default().add_modifier(Modifier::BOLD | Modifier::ITALIC),
-                    ),
-                    Span::styled(
-                        "d",
-                        Style::default().add_modifier(Modifier::BOLD | Modifier::ITALIC),
-                    ),
-                ]));
+                scores.push(Spans::from(format!(
+                    "{} {}/{} d",
+                    msd.innings_score_list[0].bat_team_name.as_str(),
+                    msd.innings_score_list[0].score.to_string(),
+                    msd.innings_score_list[0].wickets.to_string(),
+                )));
             } else {
-                scores.push(Spans::from(vec![
-                    Span::styled(
-                        msd.innings_score_list[0].bat_team_name.as_str(),
-                        Style::default().add_modifier(Modifier::BOLD | Modifier::ITALIC),
-                    ),
-                    Span::styled(
-                        msd.innings_score_list[0].score.to_string() + "/",
-                        Style::default().add_modifier(Modifier::BOLD | Modifier::ITALIC),
-                    ),
-                    Span::styled(
-                        msd.innings_score_list[0].wickets.to_string(),
-                        Style::default().add_modifier(Modifier::BOLD | Modifier::ITALIC),
-                    ),
-                    Span::styled(
-                        msd.innings_score_list[0].score.to_string(),
-                        Style::default().add_modifier(Modifier::BOLD | Modifier::ITALIC),
-                    ),
-                ]));
+                scores.push(Spans::from(format!(
+                    "{} {}/{} d",
+                    msd.innings_score_list[0].bat_team_name.as_str(),
+                    msd.innings_score_list[0].score.to_string(),
+                    msd.innings_score_list[0].wickets.to_string(),
+                )));
             }
         } else if total_inngs == 2 {
             let mut teams: HashMap<&str, Vec<&CricbuzzMiniscoreMatchScoreDetailsInningsScore>> =
@@ -220,17 +199,10 @@ fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
             let bowl_team_name = msd.match_team_info[1].bowling_team_short_name.as_str();
 
             for inns_score in &msd.innings_score_list {
-                if inns_score.innings_id == 1 {
-                    teams
-                        .entry(inns_score.bat_team_name.as_str())
-                        .or_insert_with(Vec::new)
-                        .push(inns_score);
-                } else if inns_score.innings_id == 2 {
-                    teams
-                        .entry(inns_score.bat_team_name.as_str())
-                        .or_insert_with(Vec::new)
-                        .push(inns_score);
-                }
+                teams
+                    .entry(inns_score.bat_team_name.as_str())
+                    .or_insert_with(Vec::new)
+                    .push(inns_score);
             }
 
             scores.push(Spans::from(vec![Span::styled(
@@ -250,7 +222,7 @@ fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
                     teams[bowl_team_name][0].score.to_string(),
                     teams[bowl_team_name][0].wickets.to_string(),
                 ),
-                Style::default(),
+                Style::default().fg(Color::DarkGray),
             )]));
         } else if total_inngs == 3 {
             let mut teams: HashMap<&str, Vec<&CricbuzzMiniscoreMatchScoreDetailsInningsScore>> =
@@ -260,22 +232,10 @@ fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
             let bowl_team_name = msd.match_team_info[2].bowling_team_short_name.as_str();
 
             for inns_score in &msd.innings_score_list {
-                if inns_score.innings_id == 1 {
-                    teams
-                        .entry(inns_score.bat_team_name.as_str())
-                        .or_insert_with(Vec::new)
-                        .push(inns_score);
-                } else if inns_score.innings_id == 2 {
-                    teams
-                        .entry(inns_score.bat_team_name.as_str())
-                        .or_insert_with(Vec::new)
-                        .push(inns_score);
-                } else if inns_score.innings_id == 3 {
-                    teams
-                        .entry(inns_score.bat_team_name.as_str())
-                        .or_insert_with(Vec::new)
-                        .push(inns_score);
-                }
+                teams
+                    .entry(inns_score.bat_team_name.as_str())
+                    .or_insert_with(Vec::new)
+                    .push(inns_score);
             }
 
             scores.push(Spans::from(vec![Span::styled(
@@ -297,13 +257,18 @@ fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
                     teams[bowl_team_name][0].score.to_string(),
                     teams[bowl_team_name][0].wickets.to_string(),
                 ),
-                Style::default(),
+                Style::default().fg(Color::DarkGray),
             )]));
         } else {
         }
     }
 
-    scores.push(Spans::from(Span::styled(msd.custom_status.as_str(), Style::default().fg(Color::LightRed).add_modifier(Modifier::DIM))));
+    scores.push(Spans::from(Span::styled(
+        msd.custom_status.as_str(),
+        Style::default()
+            .fg(Color::LightRed)
+            .add_modifier(Modifier::DIM),
+    )));
 
     scores
 }
