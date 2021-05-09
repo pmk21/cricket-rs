@@ -29,7 +29,7 @@ impl App {
             }
         };
 
-        println!("{:?}", match_name_id);
+        // println!("{:?}", match_name_id);
 
         for (name, id) in &match_name_id {
             let match_id: u32 = id.parse().unwrap();
@@ -68,6 +68,7 @@ impl MatchInfo {
     }
 }
 
+// TODO: Need to improve method of getting all matches
 async fn get_all_live_matches_id_and_short_name(
 ) -> Result<Vec<(String, String)>, Box<dyn std::error::Error>> {
     let resp_html = reqwest::get(CRICBUZZ_URL).await?.text().await?;
