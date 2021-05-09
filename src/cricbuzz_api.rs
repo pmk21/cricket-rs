@@ -150,6 +150,7 @@ pub struct CricbuzzMiniscoreBatsman {
     pub bat_mins: u32,
     pub bat_sixes: u32,
     pub bat_strike_rate: f32,
+    pub bat_runs: u32,
 }
 
 #[derive(Debug, Deserialize)]
