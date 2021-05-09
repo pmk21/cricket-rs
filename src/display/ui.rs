@@ -260,6 +260,42 @@ fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
                 Style::default().fg(Color::DarkGray),
             )]));
         } else {
+            let mut teams: HashMap<&str, Vec<&CricbuzzMiniscoreMatchScoreDetailsInningsScore>> =
+                HashMap::new();
+
+            let bat_team_name = msd.match_team_info[2].batting_team_short_name.as_str();
+            let bowl_team_name = msd.match_team_info[2].bowling_team_short_name.as_str();
+
+            for inns_score in &msd.innings_score_list {
+                teams
+                    .entry(inns_score.bat_team_name.as_str())
+                    .or_insert_with(Vec::new)
+                    .push(inns_score);
+            }
+
+            scores.push(Spans::from(vec![Span::styled(
+                format!(
+                    "{} {}/{} & {}/{}",
+                    bat_team_name,
+                    teams[bat_team_name][0].score.to_string(),
+                    teams[bat_team_name][0].wickets.to_string(),
+                    teams[bat_team_name][1].score.to_string(),
+                    teams[bat_team_name][1].wickets.to_string(),
+                ),
+                Style::default().add_modifier(Modifier::BOLD),
+            )]));
+
+            scores.push(Spans::from(vec![Span::styled(
+                format!(
+                    "{} {}/{} & {}/{}",
+                    bowl_team_name,
+                    teams[bowl_team_name][0].score.to_string(),
+                    teams[bowl_team_name][0].wickets.to_string(),
+                    teams[bowl_team_name][1].score.to_string(),
+                    teams[bowl_team_name][1].wickets.to_string(),
+                ),
+                Style::default().fg(Color::DarkGray),
+            )]));
         }
     }
 
