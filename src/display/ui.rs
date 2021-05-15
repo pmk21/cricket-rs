@@ -62,6 +62,7 @@ where
     let paragraph = Paragraph::new(scores).block(summ_block);
     f.render_widget(paragraph, chunks[0]);
     draw_live_feed(f, chunks[1], app);
+    draw_scorecard(f, chunks[2], app);
 }
 
 fn draw_live_feed<B>(f: &mut Frame<B>, area: Rect, app: &App)
@@ -369,4 +370,23 @@ fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
     )));
 
     scores
+}
+
+fn draw_scorecard<B>(f: &mut Frame<B>, area: Rect, app: &App)
+where
+    B: Backend,
+{
+    let scorecard = &app.matches_info[app.focused_tab as usize].scorecard;
+    let text = vec![Spans::from(format!("{:#?}", scorecard))];
+
+    let block = Block::default().borders(Borders::ALL).title("Scorecard");
+
+    let paragraph = Paragraph::new(text)
+        .block(block)
+        .wrap(Wrap { trim: true })
+        .scroll((
+            app.matches_info[app.focused_tab as usize].scorecard_scroll,
+            0,
+        ));
+    f.render_widget(paragraph, area);
 }

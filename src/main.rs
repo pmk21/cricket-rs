@@ -54,6 +54,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                             app.focused_tab = app.focused_tab.wrapping_sub(1);
                         }
                     }
+                    Key::Down => {
+                        // TODO: Some error here
+                        app.matches_info[app.focused_tab as usize].scorecard_scroll += 2;
+                    }
+                    Key::Up => {
+                        app.matches_info[app.focused_tab as usize].scorecard_scroll = app
+                            .matches_info[app.focused_tab as usize]
+                            .scorecard_scroll
+                            .wrapping_sub(2);
+                    }
                     _ => {}
                 };
             }
