@@ -147,10 +147,7 @@ async fn get_match_info_from_id(match_id: u32) -> Result<CricbuzzJson, Box<dyn s
         .text()
         .await?;
 
-    // let contents = fs::read_to_string("test.json").expect("Something went wrong");
-    // let res: CricbuzzJson = serde_json::from_str(&contents).unwrap();
     let res: CricbuzzJson = serde_json::from_str(&resp).unwrap();
-    // println!("page: {:#?}", res);
     Ok(res)
 }
 

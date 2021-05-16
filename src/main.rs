@@ -19,7 +19,6 @@ use display::ui::draw_ui;
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let mut app = App::new().await;
-    // println!("{:#?}", app.matches_info[0].cricbuzz_info);
 
     // UI part
     let mut stdout = io::stdout();
