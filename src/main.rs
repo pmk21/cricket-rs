@@ -55,14 +55,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         }
                     }
                     Key::Down => {
-                        // TODO: Some error here
-                        app.matches_info[app.focused_tab as usize].scorecard_scroll += 2;
+                        let tab_idx = app.focused_tab as usize;
+                        app.matches_info[tab_idx].scorecard_scroll =
+                            app.matches_info[tab_idx].scorecard_scroll.saturating_add(2);
                     }
                     Key::Up => {
-                        app.matches_info[app.focused_tab as usize].scorecard_scroll = app
-                            .matches_info[app.focused_tab as usize]
-                            .scorecard_scroll
-                            .wrapping_sub(2);
+                        let tab_idx = app.focused_tab as usize;
+                        app.matches_info[tab_idx].scorecard_scroll =
+                            app.matches_info[tab_idx].scorecard_scroll.saturating_sub(2);
                     }
                     _ => {}
                 };
