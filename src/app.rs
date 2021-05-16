@@ -95,6 +95,45 @@ impl App {
             focused_tab,
         }
     }
+
+    pub async fn update_on_tick(&mut self) {
+        self.matches_info.clear();
+        self.focused_tab = 0;
+
+        let mut match_name_id: Vec<(String, String)> = vec![];
+        let mut scorecard: Vec<MatchInningsInfo> = vec![];
+
+        match get_all_live_matches_id_and_short_name().await {
+            Ok(v) => match_name_id = v,
+            Err(e) => {
+                println!("{:?}", e);
+            }
+        };
+
+        for (name, id) in &match_name_id {
+            let match_id: u32 = id.parse().unwrap();
+            if let Ok(json) = get_match_info_from_id(match_id).await {
+                if let Ok(_) = prepare_scorecard(match_id, &mut scorecard).await {
+                    self.matches_info.push(MatchInfo::new(
+                        name.to_string(),
+                        match_id,
+                        format!("{}{}", String::from(CRICBUZZ_MATCH_API), match_id),
+                        json,
+                        scorecard.clone(),
+                    ));
+                    scorecard.clear();
+                } else {
+                    self.matches_info.push(MatchInfo::new(
+                        name.to_string(),
+                        match_id,
+                        format!("{}{}", String::from(CRICBUZZ_MATCH_API), match_id),
+                        json,
+                        vec![],
+                    ));
+                }
+            }
+        }
+    }
 }
 
 impl MatchInfo {

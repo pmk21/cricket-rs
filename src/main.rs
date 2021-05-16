@@ -28,19 +28,24 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
 
-    let events = event::Events::new(250);
+    let events = event::Events::new(5000);
 
     loop {
-        terminal.draw(|mut f| {
-            draw_ui(&mut f, &app);
-        })?;
+        if app.matches_info.len() > 0 {
+            terminal.draw(|mut f| {
+                draw_ui(&mut f, &app);
+            })?;
+        } else {
+            safely_close_tui()?;
+            println!("No live matches :(");
+            break;
+        }
 
         match events.next()? {
             event::Event::Input(key) => {
                 match key {
                     Key::Ctrl('c') => {
-                        disable_raw_mode()?;
-                        execute!(io::stdout(), LeaveAlternateScreen, DisableMouseCapture)?;
+                        safely_close_tui()?;
                         break;
                     }
                     Key::Right => {
@@ -67,8 +72,16 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 };
             }
 
-            _ => {}
+            event::Event::Tick => {
+                app.update_on_tick().await;
+            }
         }
     }
+    Ok(())
+}
+
+fn safely_close_tui() -> Result<(), Box<dyn std::error::Error>> {
+    disable_raw_mode()?;
+    execute!(io::stdout(), LeaveAlternateScreen, DisableMouseCapture)?;
     Ok(())
 }
