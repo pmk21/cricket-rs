@@ -1,6 +1,9 @@
 use std::collections::HashMap;
 
-use crate::{app::App, cricbuzz_api::CricbuzzMiniscoreMatchScoreDetailsInningsScore};
+use crate::{
+    app::{App, MatchInningsInfo},
+    cricbuzz_api::CricbuzzMiniscoreMatchScoreDetailsInningsScore,
+};
 use tui::{
     backend::Backend,
     layout::{Constraint, Direction, Layout, Rect},
@@ -47,8 +50,8 @@ where
         .constraints(
             [
                 Constraint::Length(5),
-                Constraint::Percentage(50),
-                Constraint::Percentage(50),
+                Constraint::Length(9),
+                Constraint::Percentage(100),
             ]
             .as_ref(),
         )
@@ -377,7 +380,7 @@ where
     B: Backend,
 {
     let scorecard = &app.matches_info[app.focused_tab as usize].scorecard;
-    let text = vec![Spans::from(format!("{:#?}", scorecard))];
+    let text = format_scorecard_info(scorecard);
 
     let block = Block::default().borders(Borders::ALL).title("Scorecard");
 
@@ -389,4 +392,53 @@ where
             0,
         ));
     f.render_widget(paragraph, area);
+}
+
+fn format_scorecard_info(scorecard: &Vec<MatchInningsInfo>) -> Vec<Spans> {
+    let mut text = vec![];
+
+    for (ino, info) in scorecard.iter().enumerate().rev() {
+        text.push(Spans::from(Span::styled(
+            format!("Innings {}", ino + 1),
+            Style::default().add_modifier(Modifier::BOLD | Modifier::UNDERLINED),
+        )));
+
+        text.push(Spans::from(""));
+
+        text.push(Spans::from(Span::styled(
+            format!(
+                "{:<30} {:<60} {:<3} {:<3} {:<2} {:<2} {:<6}",
+                "Batsman", "", "R", "B", "4s", "6s", "SR"
+            ),
+            Style::default().add_modifier(Modifier::BOLD),
+        )));
+
+        for b in &info.batsman_details {
+            text.push(Spans::from(format!(
+                "{:<30} {:<60} {:<3} {:<3} {:<2} {:<2} {:<6}",
+                b.name, b.status, b.runs, b.balls, b.fours, b.sixes, b.strike_rate
+            )));
+        }
+
+        text.push(Spans::from(""));
+
+        text.push(Spans::from(Span::styled(
+            format!(
+                "{:<30} {:<5} {:<3} {:<3} {:<2} {:<2} {:<2} {:<6}",
+                "Bowler", "O", "M", "R", "W", "NB", "WD", "ECO"
+            ),
+            Style::default().add_modifier(Modifier::BOLD),
+        )));
+
+        for b in &info.bowler_details {
+            text.push(Spans::from(format!(
+                "{:<30} {:<5} {:<3} {:<3} {:<2} {:<2} {:<2} {:<6}",
+                b.name, b.overs, b.maidens, b.runs, b.wickets, b.no_balls, b.wickets, b.economy
+            )));
+        }
+
+        text.push(Spans::from(""));
+    }
+
+    text
 }
