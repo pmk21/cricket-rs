@@ -116,7 +116,6 @@ impl MatchInfo {
     }
 }
 
-
 // TODO: Need to improve method of getting all matches
 async fn get_all_live_matches_id_and_short_name(
 ) -> Result<Vec<(String, String)>, Box<dyn std::error::Error>> {
