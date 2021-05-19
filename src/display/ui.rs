@@ -15,7 +15,7 @@ use tui::{
 
 use crate::cricbuzz_api::CricbuzzJson;
 
-pub fn draw_ui<B>(f: &mut Frame<B>, app: &App) -> ()
+pub fn draw_ui<B>(f: &mut Frame<B>, app: &App)
 where
     B: Backend,
 {
@@ -444,7 +444,7 @@ where
     f.render_widget(paragraph, area);
 }
 
-fn format_scorecard_info(scorecard: &Vec<MatchInningsInfo>) -> Vec<Spans> {
+fn format_scorecard_info(scorecard: &[MatchInningsInfo]) -> Vec<Spans> {
     let mut text = vec![];
 
     for (ino, info) in scorecard.iter().enumerate().rev() {

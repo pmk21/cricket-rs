@@ -67,7 +67,7 @@ impl App {
         for (name, id) in &match_name_id {
             let match_id: u32 = id.parse().unwrap();
             if let Ok(json) = get_match_info_from_id(match_id).await {
-                if let Ok(_) = prepare_scorecard(match_id, &mut scorecard).await {
+                if prepare_scorecard(match_id, &mut scorecard).await.is_ok() {
                     matches_info.push(MatchInfo::new(
                         name.to_string(),
                         match_id,
@@ -110,16 +110,14 @@ impl App {
         };
 
         let mut non_live_matches_idx: Vec<usize> = vec![];
-        let mut idx = 0;
-        for mi in &mut self.matches_info {
+        for (idx, mi) in &mut self.matches_info.iter_mut().enumerate() {
             if match_name_id
                 .iter()
-                .find(|&e| e.1 == mi.cricbuzz_match_id.to_string())
-                .is_some()
+                .any(|e| e.1 == mi.cricbuzz_match_id.to_string())
             {
                 let mid = mi.cricbuzz_match_id;
                 if let Ok(json) = get_match_info_from_id(mid).await {
-                    if let Ok(_) = prepare_scorecard(mid, &mut scorecard).await {
+                    if prepare_scorecard(mid, &mut scorecard).await.is_ok() {
                         mi.cricbuzz_info = json;
                         mi.scorecard = scorecard.clone();
                         scorecard.clear();
@@ -128,7 +126,6 @@ impl App {
             } else {
                 non_live_matches_idx.push(idx);
             }
-            idx += 1
         }
 
         for i in non_live_matches_idx {
@@ -166,15 +163,13 @@ async fn get_all_live_matches_id_and_short_name(
 
     for node in document.find(Class("cb-mat-mnu").descendant(Name("a"))) {
         // This check might break in the future
-        if !node.text().is_empty() && !node.text().eq("MATCHES") {
-            if node.text().split('-').nth(1).unwrap().trim().eq("Live") {
-                match node.attr("href") {
-                    Some(link) => {
-                        let split_str: Vec<&str> = link.split('/').collect();
-                        match_id_name.push((node.text(), String::from(split_str[2])));
-                    }
-                    _ => {}
-                }
+        if !node.text().is_empty()
+            && !node.text().eq("MATCHES")
+            && node.text().split('-').nth(1).unwrap().trim().eq("Live")
+        {
+            if let Some(link) = node.attr("href") {
+                let split_str: Vec<&str> = link.split('/').collect();
+                match_id_name.push((node.text(), String::from(split_str[2])));
             }
         }
     }
@@ -209,7 +204,7 @@ async fn prepare_scorecard(
     for i in 1..5 {
         if let Some(inngs) = document
             .find(Attr("id", format!("innings_{}", i.to_string()).as_ref()))
-            .nth(0)
+            .next()
         {
             populate_innings_info(&inngs, scorecard);
         }
@@ -230,32 +225,30 @@ fn populate_innings_info(inngs: &Node, scorecard: &mut Vec<MatchInningsInfo>) {
     let bat_info = inngs.children().nth(1).unwrap();
     let mut batsman_info = BatsmanInfo::default();
     for node in bat_info.children().skip(4) {
-        if node.attr("class").is_some() {
-            if node.children().count() == 15 {
-                for inner_node in node.children() {
-                    if !inner_node.text().trim().is_empty() {
-                        if count == 0 {
-                            batsman_info.name = inner_node.text().trim().to_string();
-                        } else if count == 1 {
-                            batsman_info.status = inner_node.text().trim().to_string();
-                        } else if count == 2 {
-                            batsman_info.runs = inner_node.text().trim().to_string();
-                        } else if count == 3 {
-                            batsman_info.balls = inner_node.text().trim().to_string();
-                        } else if count == 4 {
-                            batsman_info.fours = inner_node.text().trim().to_string();
-                        } else if count == 5 {
-                            batsman_info.sixes = inner_node.text().trim().to_string();
-                        } else if count == 6 {
-                            batsman_info.strike_rate = inner_node.text().trim().to_string();
-                        }
-
-                        count += 1;
+        if node.attr("class").is_some() && node.children().count() == 15 {
+            for inner_node in node.children() {
+                if !inner_node.text().trim().is_empty() {
+                    if count == 0 {
+                        batsman_info.name = inner_node.text().trim().to_string();
+                    } else if count == 1 {
+                        batsman_info.status = inner_node.text().trim().to_string();
+                    } else if count == 2 {
+                        batsman_info.runs = inner_node.text().trim().to_string();
+                    } else if count == 3 {
+                        batsman_info.balls = inner_node.text().trim().to_string();
+                    } else if count == 4 {
+                        batsman_info.fours = inner_node.text().trim().to_string();
+                    } else if count == 5 {
+                        batsman_info.sixes = inner_node.text().trim().to_string();
+                    } else if count == 6 {
+                        batsman_info.strike_rate = inner_node.text().trim().to_string();
                     }
+
+                    count += 1;
                 }
-                count = 0;
-                match_inngs_info.batsman_details.push(batsman_info.clone());
             }
+            count = 0;
+            match_inngs_info.batsman_details.push(batsman_info.clone());
         }
     }
 

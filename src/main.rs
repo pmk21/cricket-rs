@@ -31,7 +31,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let events = event::Events::new(5000);
 
     loop {
-        if app.matches_info.len() > 0 {
+        if !app.matches_info.is_empty() {
             terminal.draw(|mut f| {
                 draw_ui(&mut f, &app);
             })?;
