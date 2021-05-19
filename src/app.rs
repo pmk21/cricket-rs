@@ -112,7 +112,11 @@ impl App {
         let mut non_live_matches_idx: Vec<usize> = vec![];
         let mut idx = 0;
         for mi in &mut self.matches_info {
-            if match_name_id.iter().find(|&e| e.1 == mi.cricbuzz_match_id.to_string()).is_some() {
+            if match_name_id
+                .iter()
+                .find(|&e| e.1 == mi.cricbuzz_match_id.to_string())
+                .is_some()
+            {
                 let mid = mi.cricbuzz_match_id;
                 if let Ok(json) = get_match_info_from_id(mid).await {
                     if let Ok(_) = prepare_scorecard(mid, &mut scorecard).await {
