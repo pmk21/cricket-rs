@@ -97,9 +97,8 @@ impl App {
     }
 
     pub async fn update_on_tick(&mut self) {
-        self.matches_info.clear();
-        self.focused_tab = 0;
-
+        // WARN: Update algorithm might be slow for larger number of matches
+        // For now this should be fine and not cause any bottlenecks
         let mut match_name_id: Vec<(String, String)> = vec![];
         let mut scorecard: Vec<MatchInningsInfo> = vec![];
 
@@ -110,28 +109,26 @@ impl App {
             }
         };
 
-        for (name, id) in &match_name_id {
-            let match_id: u32 = id.parse().unwrap();
-            if let Ok(json) = get_match_info_from_id(match_id).await {
-                if let Ok(_) = prepare_scorecard(match_id, &mut scorecard).await {
-                    self.matches_info.push(MatchInfo::new(
-                        name.to_string(),
-                        match_id,
-                        format!("{}{}", String::from(CRICBUZZ_MATCH_API), match_id),
-                        json,
-                        scorecard.clone(),
-                    ));
-                    scorecard.clear();
-                } else {
-                    self.matches_info.push(MatchInfo::new(
-                        name.to_string(),
-                        match_id,
-                        format!("{}{}", String::from(CRICBUZZ_MATCH_API), match_id),
-                        json,
-                        vec![],
-                    ));
+        let mut non_live_matches_idx: Vec<usize> = vec![];
+        let mut idx = 0;
+        for mi in &mut self.matches_info {
+            if match_name_id.iter().find(|&e| e.1 == mi.cricbuzz_match_id.to_string()).is_some() {
+                let mid = mi.cricbuzz_match_id;
+                if let Ok(json) = get_match_info_from_id(mid).await {
+                    if let Ok(_) = prepare_scorecard(mid, &mut scorecard).await {
+                        mi.cricbuzz_info = json;
+                        mi.scorecard = scorecard.clone();
+                        scorecard.clear();
+                    }
                 }
+            } else {
+                non_live_matches_idx.push(idx);
             }
+            idx += 1
+        }
+
+        for i in non_live_matches_idx {
+            self.matches_info.remove(i);
         }
     }
 }
