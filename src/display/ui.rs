@@ -363,6 +363,53 @@ fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
                 Style::default().fg(Color::DarkGray),
             )]));
         }
+    } else if msd.match_format == "ODI" {
+        let total_inngs = msd.innings_score_list.len();
+        if total_inngs == 1 {
+                scores.push(Spans::from(format!(
+                    "{} {}/{} ({}) CRR: {}",
+                    msd.innings_score_list[0].bat_team_name,
+                    msd.innings_score_list[0].score.to_string(),
+                    msd.innings_score_list[0].wickets.to_string(),
+                    msd.innings_score_list[0].overs.to_string(),
+                    match_info.miniscore.current_run_rate.to_string(),
+                )));
+        } else if total_inngs == 2 {
+            let mut teams: HashMap<&str, Vec<&CricbuzzMiniscoreMatchScoreDetailsInningsScore>> =
+                HashMap::new();
+
+            let bat_team_name = msd.match_team_info[1].batting_team_short_name.as_str();
+            let bowl_team_name = msd.match_team_info[1].bowling_team_short_name.as_str();
+
+            for inns_score in &msd.innings_score_list {
+                teams
+                    .entry(inns_score.bat_team_name.as_str())
+                    .or_insert_with(Vec::new)
+                    .push(inns_score);
+            }
+
+            scores.push(Spans::from(vec![Span::styled(
+                format!(
+                    "{} {}/{} ({}) CRR: {}",
+                    bat_team_name,
+                    teams[bat_team_name][0].score.to_string(),
+                    teams[bat_team_name][0].wickets.to_string(),
+                    teams[bat_team_name][0].overs.to_string(),
+                    match_info.miniscore.current_run_rate.to_string(),
+                ),
+                Style::default().add_modifier(Modifier::BOLD),
+            )]));
+
+            scores.push(Spans::from(vec![Span::styled(
+                format!(
+                    "{} {}/{}",
+                    bowl_team_name,
+                    teams[bowl_team_name][0].score.to_string(),
+                    teams[bowl_team_name][0].wickets.to_string(),
+                ),
+                Style::default().fg(Color::DarkGray),
+            )]));
+        }
     }
 
     scores.push(Spans::from(Span::styled(
