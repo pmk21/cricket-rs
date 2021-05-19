@@ -1,7 +1,7 @@
 use select::predicate::{Class, Name, Predicate};
 use select::{document::Document, node::Node, predicate::Attr};
 
-use crate::cricbuzz_api::*;
+use crate::cricbuzz_api::CricbuzzJson;
 
 #[derive(Debug, Default, Clone)]
 pub struct BowlerInfo {
