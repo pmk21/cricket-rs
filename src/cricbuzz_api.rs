@@ -282,3 +282,129 @@ pub struct CricbuzzJson {
     pub page: String,
     pub enable_no_content: bool,
 }
+
+impl CricbuzzJson {
+    pub fn bat_striker_name(&self) -> &str {
+        self.miniscore.batsman_striker.bat_name.as_str()
+    }
+
+    pub fn bat_striker_runs(&self) -> u32 {
+        self.miniscore.batsman_striker.bat_runs
+    }
+
+    pub fn bat_striker_balls(&self) -> u32 {
+        self.miniscore.batsman_striker.bat_balls
+    }
+
+    pub fn bat_striker_fours(&self) -> u32 {
+        self.miniscore.batsman_striker.bat_fours
+    }
+
+    pub fn bat_striker_sixes(&self) -> u32 {
+        self.miniscore.batsman_striker.bat_sixes
+    }
+
+    pub fn bat_striker_strike_rate(&self) -> f32 {
+        self.miniscore.batsman_striker.bat_strike_rate
+    }
+
+    pub fn bat_non_striker_name(&self) -> &str {
+        self.miniscore.batsman_non_striker.bat_name.as_str()
+    }
+
+    pub fn bat_non_striker_runs(&self) -> u32 {
+        self.miniscore.batsman_non_striker.bat_runs
+    }
+
+    pub fn bat_non_striker_balls(&self) -> u32 {
+        self.miniscore.batsman_non_striker.bat_balls
+    }
+
+    pub fn bat_non_striker_fours(&self) -> u32 {
+        self.miniscore.batsman_non_striker.bat_fours
+    }
+
+    pub fn bat_non_striker_sixes(&self) -> u32 {
+        self.miniscore.batsman_non_striker.bat_sixes
+    }
+
+    pub fn bat_non_striker_strike_rate(&self) -> f32 {
+        self.miniscore.batsman_non_striker.bat_strike_rate
+    }
+
+    pub fn bowl_striker_name(&self) -> &str {
+        self.miniscore.bowler_striker.bowl_name.as_str()
+    }
+
+    pub fn bowl_striker_ovs(&self) -> f32 {
+        self.miniscore.bowler_striker.bowl_ovs
+    }
+
+    pub fn bowl_striker_maidens(&self) -> u32 {
+        self.miniscore.bowler_striker.bowl_maidens
+    }
+
+    pub fn bowl_striker_runs(&self) -> u32 {
+        self.miniscore.bowler_striker.bowl_runs
+    }
+
+    pub fn bowl_striker_wkts(&self) -> u32 {
+        self.miniscore.bowler_striker.bowl_wkts
+    }
+
+    pub fn bowl_striker_econ(&self) -> f32 {
+        self.miniscore.bowler_striker.bowl_econ
+    }
+
+    pub fn bowl_non_striker_name(&self) -> &str {
+        self.miniscore.bowler_non_striker.bowl_name.as_str()
+    }
+
+    pub fn bowl_non_striker_ovs(&self) -> f32 {
+        self.miniscore.bowler_non_striker.bowl_ovs
+    }
+
+    pub fn bowl_non_striker_maidens(&self) -> u32 {
+        self.miniscore.bowler_non_striker.bowl_maidens
+    }
+
+    pub fn bowl_non_striker_runs(&self) -> u32 {
+        self.miniscore.bowler_non_striker.bowl_runs
+    }
+
+    pub fn bowl_non_striker_wkts(&self) -> u32 {
+        self.miniscore.bowler_non_striker.bowl_wkts
+    }
+
+    pub fn bowl_non_striker_econ(&self) -> f32 {
+        self.miniscore.bowler_non_striker.bowl_econ
+    }
+
+    pub fn partner_ship_runs(&self) -> u32 {
+        self.miniscore.partner_ship.runs
+    }
+
+    pub fn partner_ship_balls(&self) -> u32 {
+        self.miniscore.partner_ship.balls
+    }
+
+    pub fn last_wicket(&self) -> &Option<String> {
+        &self.miniscore.last_wicket
+    }
+
+    pub fn overs_rem(&self) -> Option<f32> {
+        self.miniscore.overs_rem
+    }
+
+    pub fn toss_winner_name(&self) -> &str {
+        &self
+            .miniscore
+            .match_score_details
+            .toss_results
+            .toss_winner_name
+    }
+
+    pub fn toss_decision(&self) -> &str {
+        &self.miniscore.match_score_details.toss_results.decision
+    }
+}

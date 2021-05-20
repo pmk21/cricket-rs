@@ -74,87 +74,39 @@ where
         Row::new(vec!["Batsman", "R", "B", "4", "6", "SR"])
             .style(Style::default().add_modifier(Modifier::BOLD)),
         Row::new(vec![
-            curr_match.miniscore.batsman_striker.bat_name.to_string() + " *",
-            curr_match.miniscore.batsman_striker.bat_runs.to_string(),
-            curr_match.miniscore.batsman_striker.bat_balls.to_string(),
-            curr_match.miniscore.batsman_striker.bat_fours.to_string(),
-            curr_match.miniscore.batsman_striker.bat_sixes.to_string(),
-            curr_match
-                .miniscore
-                .batsman_striker
-                .bat_strike_rate
-                .to_string(),
+            curr_match.bat_striker_name().to_string() + " *",
+            curr_match.bat_striker_runs().to_string(),
+            curr_match.bat_striker_balls().to_string(),
+            curr_match.bat_striker_fours().to_string(),
+            curr_match.bat_striker_sixes().to_string(),
+            curr_match.bat_striker_strike_rate().to_string(),
         ]),
         Row::new(vec![
-            curr_match
-                .miniscore
-                .batsman_non_striker
-                .bat_name
-                .to_string(),
-            curr_match
-                .miniscore
-                .batsman_non_striker
-                .bat_runs
-                .to_string(),
-            curr_match
-                .miniscore
-                .batsman_non_striker
-                .bat_balls
-                .to_string(),
-            curr_match
-                .miniscore
-                .batsman_non_striker
-                .bat_fours
-                .to_string(),
-            curr_match
-                .miniscore
-                .batsman_non_striker
-                .bat_sixes
-                .to_string(),
-            curr_match
-                .miniscore
-                .batsman_non_striker
-                .bat_strike_rate
-                .to_string(),
+            curr_match.bat_non_striker_name().to_string(),
+            curr_match.bat_non_striker_runs().to_string(),
+            curr_match.bat_non_striker_balls().to_string(),
+            curr_match.bat_non_striker_fours().to_string(),
+            curr_match.bat_non_striker_sixes().to_string(),
+            curr_match.bat_non_striker_strike_rate().to_string(),
         ])
         .height(2),
         Row::new(vec!["Bowler", "O", "M", "R", "W", "ECO"])
             .style(Style::default().add_modifier(Modifier::BOLD)),
         Row::new(vec![
-            curr_match.miniscore.bowler_striker.bowl_name.to_string() + " *",
-            curr_match.miniscore.bowler_striker.bowl_ovs.to_string(),
-            curr_match.miniscore.bowler_striker.bowl_maidens.to_string(),
-            curr_match.miniscore.bowler_striker.bowl_runs.to_string(),
-            curr_match.miniscore.bowler_striker.bowl_wkts.to_string(),
-            curr_match.miniscore.bowler_striker.bowl_econ.to_string(),
+            curr_match.bowl_striker_name().to_string() + " *",
+            curr_match.bowl_striker_ovs().to_string(),
+            curr_match.bowl_striker_maidens().to_string(),
+            curr_match.bowl_striker_runs().to_string(),
+            curr_match.bowl_striker_wkts().to_string(),
+            curr_match.bowl_striker_econ().to_string(),
         ]),
         Row::new(vec![
-            curr_match
-                .miniscore
-                .bowler_non_striker
-                .bowl_name
-                .to_string(),
-            curr_match.miniscore.bowler_non_striker.bowl_ovs.to_string(),
-            curr_match
-                .miniscore
-                .bowler_non_striker
-                .bowl_maidens
-                .to_string(),
-            curr_match
-                .miniscore
-                .bowler_non_striker
-                .bowl_runs
-                .to_string(),
-            curr_match
-                .miniscore
-                .bowler_non_striker
-                .bowl_wkts
-                .to_string(),
-            curr_match
-                .miniscore
-                .bowler_non_striker
-                .bowl_econ
-                .to_string(),
+            curr_match.bowl_non_striker_name().to_string(),
+            curr_match.bowl_non_striker_ovs().to_string(),
+            curr_match.bowl_non_striker_maidens().to_string(),
+            curr_match.bowl_non_striker_runs().to_string(),
+            curr_match.bowl_non_striker_wkts().to_string(),
+            curr_match.bowl_non_striker_econ().to_string(),
         ]),
     ])
     .style(Style::default().fg(Color::White))
@@ -180,18 +132,19 @@ where
         ),
         Span::from(format!(
             "{}({})",
-            curr_match.miniscore.partner_ship.runs, curr_match.miniscore.partner_ship.balls
+            curr_match.partner_ship_runs(),
+            curr_match.partner_ship_balls()
         )),
     ]));
 
-    if let Some(l_wkt) = &curr_match.miniscore.last_wicket {
+    if let Some(l_wkt) = curr_match.last_wicket() {
         key_stats.push(Spans::from(vec![
             Span::styled("Last Wkt:", Style::default().add_modifier(Modifier::BOLD)),
             Span::from(l_wkt.as_str()),
         ]));
     }
 
-    if let Some(ovs_rem) = &curr_match.miniscore.overs_rem {
+    if let Some(ovs_rem) = &curr_match.overs_rem() {
         key_stats.push(Spans::from(vec![
             Span::styled("Ovs Left: ", Style::default().add_modifier(Modifier::BOLD)),
             Span::from(ovs_rem.to_string()),
@@ -202,16 +155,8 @@ where
         Span::styled("Toss: ", Style::default().add_modifier(Modifier::BOLD)),
         Span::from(format!(
             "{} ({})",
-            curr_match
-                .miniscore
-                .match_score_details
-                .toss_results
-                .toss_winner_name,
-            curr_match
-                .miniscore
-                .match_score_details
-                .toss_results
-                .decision
+            curr_match.toss_winner_name(),
+            curr_match.toss_decision()
         )),
     ]));
 
