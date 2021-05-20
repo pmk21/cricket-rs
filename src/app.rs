@@ -132,6 +132,23 @@ impl App {
             self.matches_info.remove(i);
         }
     }
+
+    pub fn get_all_matches_short_names(&self) -> Vec<String> {
+        let names: Vec<String> = self
+            .matches_info
+            .iter()
+            .map(|m| m.match_short_name.clone())
+            .collect();
+        names
+    }
+
+    pub fn current_match_cricbuzz_info(&self) -> &CricbuzzJson {
+        &self.matches_info[self.focused_tab as usize].cricbuzz_info
+    }
+
+    pub fn current_match_scorecard_info(&self) -> &Vec<MatchInningsInfo> {
+        &self.matches_info[self.focused_tab as usize].scorecard
+    }
 }
 
 impl MatchInfo {

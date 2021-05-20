@@ -13,8 +13,6 @@ use tui::{
     Frame,
 };
 
-use crate::cricbuzz_api::CricbuzzJson;
-
 pub fn draw_ui<B>(f: &mut Frame<B>, app: &App)
 where
     B: Backend,
@@ -23,15 +21,10 @@ where
         .constraints([Constraint::Length(3), Constraint::Min(0)].as_ref())
         .split(f.size());
 
-    let tab_titles = app
-        .matches_info
+    let match_names = app.get_all_matches_short_names();
+    let tab_titles = match_names
         .iter()
-        .map(|m| {
-            Spans::from(Span::styled(
-                m.match_short_name.as_str(),
-                Style::default().fg(Color::Green),
-            ))
-        })
+        .map(|m| Spans::from(Span::styled(m.as_str(), Style::default().fg(Color::Green))))
         .collect();
 
     let tabs = Tabs::new(tab_titles)
@@ -57,9 +50,7 @@ where
         )
         .split(area);
 
-    let curr_match = &app.matches_info[app.focused_tab as usize].cricbuzz_info;
-
-    let scores = get_match_summary_info(curr_match);
+    let scores = get_match_summary_info(app);
 
     let summ_block = Block::default().borders(Borders::ALL).title("Overview");
     let paragraph = Paragraph::new(scores).block(summ_block);
@@ -77,7 +68,7 @@ where
         .direction(Direction::Horizontal)
         .split(area);
 
-    let curr_match = &app.matches_info[app.focused_tab as usize].cricbuzz_info;
+    let curr_match = app.current_match_cricbuzz_info();
 
     let table = Table::new(vec![
         Row::new(vec!["Batsman", "R", "B", "4", "6", "SR"])
@@ -231,7 +222,8 @@ where
     f.render_widget(key_stats_para, chunks[1]);
 }
 
-fn get_match_summary_info(match_info: &CricbuzzJson) -> Vec<Spans> {
+fn get_match_summary_info(app: &App) -> Vec<Spans> {
+    let match_info = app.current_match_cricbuzz_info();
     let msd = &match_info.miniscore.match_score_details;
     let mut scores = vec![];
 
@@ -429,7 +421,7 @@ fn draw_scorecard<B>(f: &mut Frame<B>, area: Rect, app: &App)
 where
     B: Backend,
 {
-    let scorecard = &app.matches_info[app.focused_tab as usize].scorecard;
+    let scorecard = app.current_match_scorecard_info();
     let text = format_scorecard_info(scorecard);
 
     let block = Block::default().borders(Borders::ALL).title("Scorecard");
