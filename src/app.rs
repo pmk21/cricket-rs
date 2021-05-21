@@ -3,7 +3,7 @@ use select::{document::Document, node::Node, predicate::Attr};
 
 use crate::cricbuzz_api::CricbuzzJson;
 
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Default, Clone, Eq, PartialEq)]
 pub struct BowlerInfo {
     pub name: String,
     pub overs: String,
@@ -15,7 +15,7 @@ pub struct BowlerInfo {
     pub economy: String,
 }
 
-#[derive(Default, Debug, Clone)]
+#[derive(Default, Debug, Clone, Eq, PartialEq)]
 pub struct BatsmanInfo {
     pub name: String,
     pub status: String,
@@ -26,7 +26,7 @@ pub struct BatsmanInfo {
     pub strike_rate: String,
 }
 
-#[derive(Debug, Default, Clone)]
+#[derive(Debug, Default, Clone, Eq, PartialEq)]
 pub struct MatchInningsInfo {
     pub batsman_details: Vec<BatsmanInfo>,
     pub yet_to_bat: String,
@@ -174,23 +174,29 @@ impl MatchInfo {
 async fn get_all_live_matches_id_and_short_name(
 ) -> Result<Vec<(String, String)>, Box<dyn std::error::Error>> {
     let resp_html = reqwest::get(CRICBUZZ_URL).await?.text().await?;
-
-    let document = Document::from(resp_html.as_str());
     let mut match_id_name = vec![];
+
+    parse_all_live_matches_id_and_short_name(&resp_html, &mut match_id_name);
+
+    Ok(match_id_name)
+}
+
+fn parse_all_live_matches_id_and_short_name(html: &str, match_id_name: &mut Vec<(String, String)>) {
+    let document = Document::from(html);
 
     for node in document.find(Class("cb-mat-mnu").descendant(Name("a"))) {
         // This check might break in the future
-        if !node.text().is_empty()
-            && !node.text().eq("MATCHES")
-            && node.text().split('-').nth(1).unwrap().trim().eq("Live")
-        {
-            if let Some(link) = node.attr("href") {
-                let split_str: Vec<&str> = link.split('/').collect();
-                match_id_name.push((node.text(), String::from(split_str[2])));
+        if !node.text().is_empty() && !node.text().eq("MATCHES") {
+            if let Some(text) = node.text().split('-').nth(1) {
+                if text.trim().eq("Live") {
+                    if let Some(link) = node.attr("href") {
+                        let split_str: Vec<&str> = link.split('/').collect();
+                        match_id_name.push((node.text(), String::from(split_str[2])));
+                    }
+                }
             }
         }
     }
-    Ok(match_id_name)
 }
 
 async fn get_match_info_from_id(match_id: u32) -> Result<CricbuzzJson, Box<dyn std::error::Error>> {
@@ -216,7 +222,13 @@ async fn prepare_scorecard(
     .text()
     .await?;
 
-    let document = Document::from(resp_html.as_str());
+    parse_scorecard(&resp_html, scorecard);
+
+    Ok(())
+}
+
+fn parse_scorecard(html: &str, scorecard: &mut Vec<MatchInningsInfo>) {
+    let document = Document::from(html);
 
     for i in 1..5 {
         if let Some(inngs) = document
@@ -226,8 +238,6 @@ async fn prepare_scorecard(
             populate_innings_info(&inngs, scorecard);
         }
     }
-
-    Ok(())
 }
 
 fn populate_innings_info(inngs: &Node, scorecard: &mut Vec<MatchInningsInfo>) {
@@ -314,4 +324,130 @@ fn populate_innings_info(inngs: &Node, scorecard: &mut Vec<MatchInningsInfo>) {
     }
 
     scorecard.push(match_inngs_info);
+}
+
+#[cfg(test)]
+mod tests {
+    use std::fs;
+
+    use insta;
+
+    use crate::app::{parse_all_live_matches_id_and_short_name, parse_scorecard};
+
+    // Path is relative to where `cargo test` command is run
+    const TEST_FILES_PATH: &str = "./tests/data/";
+
+    // Path is relative to where the testfile is present
+    const SNAPSHOTS_PATH: &str = "../tests/snapshots";
+
+    #[test]
+    fn test_parse_all_live_matches_id_and_short_name_four_live_matches() {
+        let fp = format!("{}{}", TEST_FILES_PATH, "cricbuzz_home_four_live.txt");
+        let html = fs::read_to_string(fp).unwrap();
+
+        let res_match_id_name: Vec<(String, String)> = vec![
+            ("KENT vs GLAM - Live".to_string(), "33238".to_string()),
+            ("HAM vs LEIC - Live".to_string(), "33243".to_string()),
+            ("SUR vs MDX - Live".to_string(), "33253".to_string()),
+            ("GLOUCS vs SOM - Live".to_string(), "33248".to_string()),
+        ];
+        let mut match_id_name = vec![];
+
+        parse_all_live_matches_id_and_short_name(&html, &mut match_id_name);
+
+        assert_eq!(res_match_id_name, match_id_name);
+    }
+
+    #[test]
+    fn test_parse_all_live_matches_id_and_short_name_no_live_matches() {
+        let fp = format!("{}{}", TEST_FILES_PATH, "cricbuzz_home_no_live.txt");
+        let html = fs::read_to_string(fp).unwrap();
+
+        let res_match_id_name: Vec<(String, String)> = vec![];
+        let mut match_id_name = vec![];
+
+        parse_all_live_matches_id_and_short_name(&html, &mut match_id_name);
+
+        assert_eq!(res_match_id_name, match_id_name);
+    }
+
+    #[test]
+    fn test_parse_scorecard_one_innings() {
+        let fp = format!(
+            "{}{}",
+            TEST_FILES_PATH, "cricbuzz_scorecard_one_innings.txt"
+        );
+        let html = fs::read_to_string(fp).unwrap();
+
+        let mut scorecard = vec![];
+
+        parse_scorecard(&html, &mut scorecard);
+
+        let mut settings = insta::Settings::clone_current();
+        settings.set_snapshot_path(SNAPSHOTS_PATH);
+
+        settings.bind(|| {
+            insta::assert_debug_snapshot!(scorecard);
+        });
+    }
+
+    #[test]
+    fn test_parse_scorecard_two_innings() {
+        let fp = format!(
+            "{}{}",
+            TEST_FILES_PATH, "cricbuzz_scorecard_two_innings.txt"
+        );
+        let html = fs::read_to_string(fp).unwrap();
+
+        let mut scorecard = vec![];
+
+        parse_scorecard(&html, &mut scorecard);
+
+        let mut settings = insta::Settings::clone_current();
+        settings.set_snapshot_path(SNAPSHOTS_PATH);
+
+        settings.bind(|| {
+            insta::assert_debug_snapshot!(scorecard);
+        });
+    }
+
+    #[test]
+    fn test_parse_scorecard_three_innings() {
+        let fp = format!(
+            "{}{}",
+            TEST_FILES_PATH, "cricbuzz_scorecard_three_innings.txt"
+        );
+        let html = fs::read_to_string(fp).unwrap();
+
+        let mut scorecard = vec![];
+
+        parse_scorecard(&html, &mut scorecard);
+
+        let mut settings = insta::Settings::clone_current();
+        settings.set_snapshot_path(SNAPSHOTS_PATH);
+
+        settings.bind(|| {
+            insta::assert_debug_snapshot!(scorecard);
+        });
+    }
+
+    #[test]
+    fn test_parse_scorecard_four_innings() {
+        let fp = format!(
+            "{}{}",
+            TEST_FILES_PATH, "cricbuzz_scorecard_four_innings.txt"
+        );
+        let html = fs::read_to_string(fp).unwrap();
+
+        let mut scorecard = vec![];
+
+        parse_scorecard(&html, &mut scorecard);
+
+        let mut settings = insta::Settings::clone_current();
+        settings.set_snapshot_path(SNAPSHOTS_PATH);
+
+        settings.bind(|| {
+            insta::assert_debug_snapshot!(scorecard);
+        });
+    }
 }
