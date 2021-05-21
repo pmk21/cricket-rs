@@ -195,19 +195,28 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App) {
     let total_inngs = msd.innings_score_list.len();
     if total_inngs == 1 {
         if msd.innings_score_list[0].is_declared {
-            scores.push(Spans::from(format!(
-                "{} {}/{} d",
-                msd.innings_score_list[0].bat_team_name.as_str(),
-                msd.innings_score_list[0].score.to_string(),
-                msd.innings_score_list[0].wickets.to_string(),
-            )));
+            scores.push(Spans::from(vec![Span::styled(
+                format!(
+                    "{} {}/{} d ({})",
+                    msd.innings_score_list[0].bat_team_name.as_str(),
+                    msd.innings_score_list[0].score.to_string(),
+                    msd.innings_score_list[0].wickets.to_string(),
+                    msd.innings_score_list[0].overs.to_string(),
+                ),
+                Style::default().add_modifier(Modifier::BOLD),
+            )]));
         } else {
-            scores.push(Spans::from(format!(
-                "{} {}/{}",
-                msd.innings_score_list[0].bat_team_name.as_str(),
-                msd.innings_score_list[0].score.to_string(),
-                msd.innings_score_list[0].wickets.to_string(),
-            )));
+            scores.push(Spans::from(vec![Span::styled(
+                format!(
+                    "{} {}/{} ({}) CRR: {}",
+                    msd.innings_score_list[0].bat_team_name.as_str(),
+                    msd.innings_score_list[0].score.to_string(),
+                    msd.innings_score_list[0].wickets.to_string(),
+                    msd.innings_score_list[0].overs.to_string(),
+                    match_info.miniscore.current_run_rate.to_string(),
+                ),
+                Style::default().add_modifier(Modifier::BOLD),
+            )]));
         }
     } else if total_inngs == 2 {
         let mut teams: HashMap<&str, Vec<&CricbuzzMiniscoreMatchScoreDetailsInningsScore>> =
@@ -388,10 +397,7 @@ where
     let paragraph = Paragraph::new(text)
         .block(block)
         .wrap(Wrap { trim: true })
-        .scroll((
-            app.matches_info[app.focused_tab].scorecard_scroll,
-            0,
-        ));
+        .scroll((app.matches_info[app.focused_tab].scorecard_scroll, 0));
     f.render_widget(paragraph, area);
 }
 
