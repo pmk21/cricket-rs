@@ -389,7 +389,7 @@ where
         .block(block)
         .wrap(Wrap { trim: true })
         .scroll((
-            app.matches_info[app.focused_tab as usize].scorecard_scroll,
+            app.matches_info[app.focused_tab].scorecard_scroll,
             0,
         ));
     f.render_widget(paragraph, area);
