@@ -49,22 +49,22 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                         break;
                     }
                     Key::Right => {
-                        if app.focused_tab < ((app.matches_info.len() - 1) as u32) {
+                        if app.focused_tab < (app.matches_info.len() - 1) {
                             app.focused_tab += 1;
                         }
                     }
                     Key::Left => {
                         if app.focused_tab > 0 {
-                            app.focused_tab = app.focused_tab.wrapping_sub(1);
+                            app.focused_tab = app.focused_tab.saturating_sub(1);
                         }
                     }
                     Key::Down => {
-                        let tab_idx = app.focused_tab as usize;
+                        let tab_idx = app.focused_tab;
                         app.matches_info[tab_idx].scorecard_scroll =
                             app.matches_info[tab_idx].scorecard_scroll.saturating_add(2);
                     }
                     Key::Up => {
-                        let tab_idx = app.focused_tab as usize;
+                        let tab_idx = app.focused_tab;
                         app.matches_info[tab_idx].scorecard_scroll =
                             app.matches_info[tab_idx].scorecard_scroll.saturating_sub(2);
                     }

@@ -44,7 +44,7 @@ pub struct MatchInfo {
 
 pub struct App {
     pub matches_info: Vec<MatchInfo>,
-    pub focused_tab: u32,
+    pub focused_tab: usize,
 }
 
 const CRICBUZZ_URL: &str = "https://www.cricbuzz.com";
@@ -143,11 +143,11 @@ impl App {
     }
 
     pub fn current_match_cricbuzz_info(&self) -> &CricbuzzJson {
-        &self.matches_info[self.focused_tab as usize].cricbuzz_info
+        &self.matches_info[self.focused_tab].cricbuzz_info
     }
 
     pub fn current_match_scorecard_info(&self) -> &Vec<MatchInningsInfo> {
-        &self.matches_info[self.focused_tab as usize].scorecard
+        &self.matches_info[self.focused_tab].scorecard
     }
 }
 
