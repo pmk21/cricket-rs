@@ -139,7 +139,7 @@ where
 
     if let Some(l_wkt) = curr_match.last_wicket() {
         key_stats.push(Spans::from(vec![
-            Span::styled("Last Wkt:", Style::default().add_modifier(Modifier::BOLD)),
+            Span::styled("Last Wkt: ", Style::default().add_modifier(Modifier::BOLD)),
             Span::from(l_wkt.as_str()),
         ]));
     }
