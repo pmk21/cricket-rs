@@ -1,6 +1,4 @@
 use scraper::{ElementRef, Html, Selector};
-use select::document::Document;
-use select::predicate::{Class, Name, Predicate};
 
 use crate::cricbuzz_api::CricbuzzJson;
 
@@ -183,16 +181,25 @@ async fn get_all_live_matches_id_and_short_name(
 }
 
 fn parse_all_live_matches_id_and_short_name(html: &str, match_id_name: &mut Vec<(String, String)>) {
-    let document = Document::from(html);
+    let doc = Html::parse_document(html);
+    let nav_sel = Selector::parse("nav.cb-mat-mnu").unwrap();
+    let sel_a = Selector::parse("a").unwrap();
 
-    for node in document.find(Class("cb-mat-mnu").descendant(Name("a"))) {
-        // This check might break in the future
-        if !node.text().is_empty() && !node.text().eq("MATCHES") {
-            if let Some(text) = node.text().split('-').nth(1) {
-                if text.trim().eq("Live") {
-                    if let Some(link) = node.attr("href") {
-                        let split_str: Vec<&str> = link.split('/').collect();
-                        match_id_name.push((node.text(), String::from(split_str[2])));
+    if let Some(nav) = doc.select(&nav_sel).next() {
+        for link in nav.select(&sel_a) {
+            let text = link
+                .text()
+                .collect::<Vec<&str>>()
+                .concat()
+                .trim()
+                .to_string();
+            if !text.is_empty() && !text.eq("MATCHES") {
+                if let Some(spl) = text.split('-').nth(1) {
+                    if spl.trim().eq("Live") {
+                        if let Some(href) = link.value().attr("href") {
+                            let split_str = href.split('/').collect::<Vec<&str>>();
+                            match_id_name.push((text, split_str[2].to_string()));
+                        }
                     }
                 }
             }
