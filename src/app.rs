@@ -1,3 +1,4 @@
+use reqwest::Client;
 use scraper::{ElementRef, Html, Selector};
 
 use crate::cricbuzz_api::CricbuzzJson;
@@ -42,6 +43,7 @@ pub struct MatchInfo {
 }
 
 pub struct App {
+    req_clt: Client,
     pub matches_info: Vec<MatchInfo>,
     pub focused_tab: usize,
 }
@@ -55,8 +57,9 @@ impl App {
         let mut matches_info = vec![];
         let mut match_name_id: Vec<(String, String)> = vec![];
         let mut scorecard: Vec<MatchInningsInfo> = vec![];
+        let req_clt = Client::new();
 
-        match get_all_live_matches_id_and_short_name().await {
+        match get_all_live_matches_id_and_short_name(&req_clt).await {
             Ok(v) => match_name_id = v,
             Err(e) => {
                 println!("{:?}", e);
@@ -65,8 +68,11 @@ impl App {
 
         for (name, id) in &match_name_id {
             let match_id: u32 = id.parse().unwrap();
-            if let Ok(json) = get_match_info_from_id(match_id).await {
-                if prepare_scorecard(match_id, &mut scorecard).await.is_ok() {
+            if let Ok(json) = get_match_info_from_id(&req_clt, match_id).await {
+                if prepare_scorecard(&req_clt, match_id, &mut scorecard)
+                    .await
+                    .is_ok()
+                {
                     matches_info.push(MatchInfo::new(
                         name.to_string(),
                         match_id,
@@ -90,6 +96,7 @@ impl App {
         let focused_tab = 0;
 
         App {
+            req_clt,
             matches_info,
             focused_tab,
         }
@@ -101,7 +108,7 @@ impl App {
         let mut match_name_id: Vec<(String, String)> = vec![];
         let mut scorecard: Vec<MatchInningsInfo> = vec![];
 
-        match get_all_live_matches_id_and_short_name().await {
+        match get_all_live_matches_id_and_short_name(&self.req_clt).await {
             Ok(v) => match_name_id = v,
             Err(e) => {
                 println!("{:?}", e);
@@ -115,8 +122,11 @@ impl App {
                 .any(|e| e.1 == mi.cricbuzz_match_id.to_string())
             {
                 let mid = mi.cricbuzz_match_id;
-                if let Ok(json) = get_match_info_from_id(mid).await {
-                    if prepare_scorecard(mid, &mut scorecard).await.is_ok() {
+                if let Ok(json) = get_match_info_from_id(&self.req_clt, mid).await {
+                    if prepare_scorecard(&self.req_clt, mid, &mut scorecard)
+                        .await
+                        .is_ok()
+                    {
                         mi.cricbuzz_info = json;
                         mi.scorecard = scorecard.clone();
                         scorecard.clear();
@@ -171,8 +181,9 @@ impl MatchInfo {
 
 // TODO: Need to improve method of getting all matches
 async fn get_all_live_matches_id_and_short_name(
+    req_clt: &Client,
 ) -> Result<Vec<(String, String)>, Box<dyn std::error::Error>> {
-    let resp_html = reqwest::get(CRICBUZZ_URL).await?.text().await?;
+    let resp_html = req_clt.get(CRICBUZZ_URL).send().await?.text().await?;
     let mut match_id_name = vec![];
 
     parse_all_live_matches_id_and_short_name(&resp_html, &mut match_id_name);
@@ -207,8 +218,13 @@ fn parse_all_live_matches_id_and_short_name(html: &str, match_id_name: &mut Vec<
     }
 }
 
-async fn get_match_info_from_id(match_id: u32) -> Result<CricbuzzJson, Box<dyn std::error::Error>> {
-    let resp = reqwest::get(format!("{}{}", String::from(CRICBUZZ_MATCH_API), match_id))
+async fn get_match_info_from_id(
+    req_clt: &Client,
+    match_id: u32,
+) -> Result<CricbuzzJson, Box<dyn std::error::Error>> {
+    let resp = req_clt
+        .get(format!("{}{}", String::from(CRICBUZZ_MATCH_API), match_id))
+        .send()
         .await?
         .text()
         .await?;
@@ -218,17 +234,20 @@ async fn get_match_info_from_id(match_id: u32) -> Result<CricbuzzJson, Box<dyn s
 }
 
 async fn prepare_scorecard(
+    req_clt: &Client,
     id: u32,
     scorecard: &mut Vec<MatchInningsInfo>,
 ) -> Result<(), Box<dyn std::error::Error>> {
-    let resp_html = reqwest::get(format!(
-        "{}{}",
-        String::from(CRICBUZZ_MATCH_SCORECARD_API),
-        id
-    ))
-    .await?
-    .text()
-    .await?;
+    let resp_html = req_clt
+        .get(format!(
+            "{}{}",
+            String::from(CRICBUZZ_MATCH_SCORECARD_API),
+            id
+        ))
+        .send()
+        .await?
+        .text()
+        .await?;
 
     parse_scorecard(&resp_html, scorecard);
 
