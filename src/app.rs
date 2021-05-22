@@ -1,5 +1,6 @@
+use scraper::{ElementRef, Html, Selector};
+use select::document::Document;
 use select::predicate::{Class, Name, Predicate};
-use select::{document::Document, node::Node, predicate::Attr};
 
 use crate::cricbuzz_api::CricbuzzJson;
 
@@ -228,101 +229,78 @@ async fn prepare_scorecard(
 }
 
 fn parse_scorecard(html: &str, scorecard: &mut Vec<MatchInningsInfo>) {
-    let document = Document::from(html);
+    let doc = Html::parse_document(html);
 
-    for i in 1..5 {
-        if let Some(inngs) = document
-            .find(Attr("id", format!("innings_{}", i.to_string()).as_ref()))
-            .next()
-        {
-            populate_innings_info(&inngs, scorecard);
+    for ino in 1..5 {
+        let inngs_sel = Selector::parse(format!("div[id=\"innings_{}\"]", ino).as_str()).unwrap();
+        if let Some(div) = doc.select(&inngs_sel).next() {
+            populate_innings_info(&div, scorecard);
         }
     }
 }
 
-fn populate_innings_info(inngs: &Node, scorecard: &mut Vec<MatchInningsInfo>) {
-    // WARNING: This scorecard parsing function might break easily!
+fn populate_innings_info(div: &ElementRef, scorecard: &mut Vec<MatchInningsInfo>) {
+    // This unwrap will probably never panic
+    let sel_scrd_items = Selector::parse("div.cb-scrd-itms").unwrap();
+    let sel_div = Selector::parse("div").unwrap();
 
     let mut match_inngs_info = MatchInningsInfo::default();
 
-    let mut count = 0;
-
-    // TODO: Split this into functions
-    // Prints each batsman's scorecard info
-    let bat_info = inngs.children().nth(1).unwrap();
-    let mut batsman_info = BatsmanInfo::default();
-    for node in bat_info.children().skip(4) {
-        if node.attr("class").is_some() && node.children().count() == 15 {
-            for inner_node in node.children() {
-                if !inner_node.text().trim().is_empty() {
-                    if count == 0 {
-                        batsman_info.name = inner_node.text().trim().to_string();
-                    } else if count == 1 {
-                        batsman_info.status = inner_node.text().trim().to_string();
-                    } else if count == 2 {
-                        batsman_info.runs = inner_node.text().trim().to_string();
-                    } else if count == 3 {
-                        batsman_info.balls = inner_node.text().trim().to_string();
-                    } else if count == 4 {
-                        batsman_info.fours = inner_node.text().trim().to_string();
-                    } else if count == 5 {
-                        batsman_info.sixes = inner_node.text().trim().to_string();
-                    } else if count == 6 {
-                        batsman_info.strike_rate = inner_node.text().trim().to_string();
-                    }
-
-                    count += 1;
-                }
+    for inner_div in div.select(&sel_scrd_items) {
+        // Check for batsman or bowler scorcard info
+        let num_child_div = inner_div.select(&sel_div).count();
+        if num_child_div == 7 {
+            // This is for batsman info
+            let mut bat_info = BatsmanInfo::default();
+            let mut divs = inner_div.select(&sel_div);
+            if let Some(bat_name_link) = divs.next() {
+                bat_info.name = bat_name_link
+                    .text()
+                    .collect::<Vec<&str>>()
+                    .concat()
+                    .trim()
+                    .to_string();
             }
-            count = 0;
-            match_inngs_info.batsman_details.push(batsman_info.clone());
+
+            bat_info.status = divs
+                .next()
+                .unwrap()
+                .text()
+                .collect::<Vec<&str>>()
+                .concat()
+                .trim()
+                .to_string();
+            bat_info.runs = divs.next().unwrap().inner_html().trim().to_string();
+            bat_info.balls = divs.next().unwrap().inner_html().trim().to_string();
+            bat_info.fours = divs.next().unwrap().inner_html().trim().to_string();
+            bat_info.sixes = divs.next().unwrap().inner_html().trim().to_string();
+            bat_info.strike_rate = divs.next().unwrap().inner_html().trim().to_string();
+
+            match_inngs_info.batsman_details.push(bat_info);
+        } else if num_child_div == 8 {
+            // This is for bowler info
+            let mut bowl_info = BowlerInfo::default();
+            let mut divs = inner_div.select(&sel_div);
+            if let Some(bowl_name_link) = divs.next() {
+                bowl_info.name = bowl_name_link
+                    .text()
+                    .collect::<Vec<&str>>()
+                    .concat()
+                    .trim()
+                    .to_string();
+            }
+
+            bowl_info.overs = divs.next().unwrap().inner_html().trim().to_string();
+            bowl_info.maidens = divs.next().unwrap().inner_html().trim().to_string();
+            bowl_info.runs = divs.next().unwrap().inner_html().trim().to_string();
+            bowl_info.wickets = divs.next().unwrap().inner_html().trim().to_string();
+            bowl_info.no_balls = divs.next().unwrap().inner_html().trim().to_string();
+            bowl_info.wides = divs.next().unwrap().inner_html().trim().to_string();
+            bowl_info.economy = divs.next().unwrap().inner_html().trim().to_string();
+
+            match_inngs_info.bowler_details.push(bowl_info);
         }
     }
-
-    // Fall of Wickets
-    // let fow_hdr = inngs.children().nth(3).unwrap();
-    // println!("{}", fow_hdr.text());
-
-    // Shows all wickets fallen
-    // let fow_all = inngs.children().nth(4).unwrap();
-    // println!("{}", fow_all.text());
-
-    // TODO: Split this into functions
-    // Bowler Scorecard Info - Bowler O M R W NB WD ECO
-    count = 0;
-    if let Some(bowl_info) = inngs.children().nth(6) {
-        let mut bowler_info = BowlerInfo::default();
-        for n in bowl_info.children().skip(2) {
-            if n.attr("class").is_some() {
-                for n1 in n.children() {
-                    if !n1.text().trim().is_empty() {
-                        if count == 0 {
-                            bowler_info.name = n1.text().trim().to_string();
-                        } else if count == 1 {
-                            bowler_info.overs = n1.text().trim().to_string();
-                        } else if count == 2 {
-                            bowler_info.maidens = n1.text().trim().to_string();
-                        } else if count == 3 {
-                            bowler_info.runs = n1.text().trim().to_string();
-                        } else if count == 4 {
-                            bowler_info.wickets = n1.text().trim().to_string();
-                        } else if count == 5 {
-                            bowler_info.no_balls = n1.text().trim().to_string();
-                        } else if count == 6 {
-                            bowler_info.wides = n1.text().trim().to_string();
-                        } else if count == 7 {
-                            bowler_info.economy = n1.text().trim().to_string();
-                        }
-
-                        count += 1;
-                    }
-                }
-                match_inngs_info.bowler_details.push(bowler_info.clone());
-                count = 0;
-            }
-        }
-    }
-
     scorecard.push(match_inngs_info);
 }
 
