@@ -24,12 +24,12 @@ where
     let match_names = app.get_all_matches_short_names();
     let tab_titles = match_names
         .iter()
-        .map(|m| Spans::from(Span::styled(m.as_str(), Style::default().fg(Color::Green))))
+        .map(|m| Spans::from(Span::styled(m.as_str(), Style::default().fg(Color::White))))
         .collect();
 
     let tabs = Tabs::new(tab_titles)
         .block(Block::default().borders(Borders::ALL).title("Matches"))
-        .highlight_style(Style::default().fg(Color::Yellow))
+        .highlight_style(Style::default().fg(Color::Green))
         .select(app.focused_tab as usize);
     f.render_widget(tabs, chunks[0]);
     draw_tab(f, chunks[1], app);
