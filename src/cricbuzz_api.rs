@@ -1,3 +1,8 @@
+//! # Cricbuzz API Response Format
+//!
+//! This file just defines the format of the response JSON from Cricbuzz's API.
+//! Also contains a few helper methods to access certain fields.
+
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
