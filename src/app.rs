@@ -1,8 +1,14 @@
+//! # App
+//!
+//! The `app` module is basically used to maintain the app state.
+//! In this case, all the matches information.
+
 use reqwest::Client;
 use scraper::{ElementRef, Html, Selector};
 
 use crate::cricbuzz_api::CricbuzzJson;
 
+/// This struct represents a bowler's statistics in a live match.
 #[derive(Debug, Default, Clone, Eq, PartialEq)]
 pub struct BowlerInfo {
     pub name: String,
@@ -15,6 +21,7 @@ pub struct BowlerInfo {
     pub economy: String,
 }
 
+/// This struct represents a bowler's statistics in a live match.
 #[derive(Default, Debug, Clone, Eq, PartialEq)]
 pub struct BatsmanInfo {
     pub name: String,
@@ -26,24 +33,37 @@ pub struct BatsmanInfo {
     pub strike_rate: String,
 }
 
+/// This struct represents all the information related to the batsmen and bowlers in a
+/// particular innings of a match.
 #[derive(Debug, Default, Clone, Eq, PartialEq)]
 pub struct MatchInningsInfo {
+    /// Holds all the batsmen details that is present in a scorecard
     pub batsman_details: Vec<BatsmanInfo>,
     pub yet_to_bat: String,
+    /// Holds all the bowlers details that is present in a scorecard
     pub bowler_details: Vec<BowlerInfo>,
 }
 
+/// This holds all the information pertaining to a single live match
 pub struct MatchInfo {
+    /// Short form of the teams playing the match. Eg. IND vs NZ - Live
     pub match_short_name: String,
+    /// Number used by Cricbuzz to identify a match
     pub cricbuzz_match_id: u32,
+    /// Link from where live statistics of the match can be obtained
     pub cricbuzz_match_api_link: String,
+    /// A struct representation of the JSON obtained from Cricbuzz containing all relevant information.
     pub cricbuzz_info: CricbuzzJson,
+    /// All the innings scorecard statistics of a particular match
     pub scorecard: Vec<MatchInningsInfo>,
 }
 
+/// This contains all the live matches that are currently being played and also a connection client
 #[derive(Default)]
 pub struct App {
+    /// Connection client to send multiple requests and obtain updates
     req_clt: Client,
+    /// Details about all the live matches
     pub matches_info: Vec<MatchInfo>,
 }
 
@@ -52,12 +72,14 @@ const CRICBUZZ_MATCH_API: &str = "https://www.cricbuzz.com/api/cricket-match/com
 const CRICBUZZ_MATCH_SCORECARD_API: &str = "https://www.cricbuzz.com/api/html/cricket-scorecard/";
 
 impl App {
+    /// Returs a new App containing all live matches
     pub async fn new() -> App {
         let mut matches_info = vec![];
         let mut match_name_id: Vec<(String, String)> = vec![];
         let mut scorecard: Vec<MatchInningsInfo> = vec![];
         let req_clt = Client::new();
 
+        // First get all currently live matches
         match get_all_live_matches_id_and_short_name(&req_clt).await {
             Ok(v) => match_name_id = v,
             Err(e) => {
@@ -65,6 +87,7 @@ impl App {
             }
         };
 
+        // For each live match populate required data
         for (name, id) in &match_name_id {
             let match_id: u32 = id.parse().unwrap();
             if let Ok(json) = get_match_info_from_id(&req_clt, match_id).await {
@@ -98,6 +121,7 @@ impl App {
         }
     }
 
+    /// Updates the App data, basically updates information on all the live matches
     pub async fn update_on_tick(&mut self) {
         // WARN: Update algorithm might be slow for larger number of matches
         // For now this should be fine and not cause any bottlenecks
@@ -138,6 +162,7 @@ impl App {
         }
     }
 
+    /// Returns a vector of short names of all the live matches
     pub fn get_all_matches_short_names(&self) -> Vec<String> {
         let names: Vec<String> = self
             .matches_info
@@ -147,16 +172,19 @@ impl App {
         names
     }
 
+    /// Returns details about the selected live match
     pub fn current_match_cricbuzz_info(&self, idx: usize) -> &CricbuzzJson {
         &self.matches_info[idx].cricbuzz_info
     }
 
+    /// Returns scorecard details about the selected live match
     pub fn current_match_scorecard_info(&self, idx: usize) -> &Vec<MatchInningsInfo> {
         &self.matches_info[idx].scorecard
     }
 }
 
 impl MatchInfo {
+    /// Returns a new struct containing live match information
     fn new(
         match_short_name: String,
         cricbuzz_match_id: u32,
@@ -174,6 +202,7 @@ impl MatchInfo {
     }
 }
 
+/// Helper function to obtain all currently live matches from Cricbuzz's homepage
 // TODO: Need to improve method of getting all matches
 async fn get_all_live_matches_id_and_short_name(
     req_clt: &Client,
@@ -186,6 +215,11 @@ async fn get_all_live_matches_id_and_short_name(
     Ok(match_id_name)
 }
 
+/// Helper function which scrapes match IDs and short names from the Cricbuzz homepage
+///
+/// # Arguments
+/// * `html` - The HTML page
+/// * `match_id_name` - A vector containing a tuple of match short name and ID
 fn parse_all_live_matches_id_and_short_name(html: &str, match_id_name: &mut Vec<(String, String)>) {
     let doc = Html::parse_document(html);
     let nav_sel = Selector::parse("nav.cb-mat-mnu").unwrap();
@@ -213,6 +247,7 @@ fn parse_all_live_matches_id_and_short_name(html: &str, match_id_name: &mut Vec<
     }
 }
 
+/// Obtains match information from the Cricbuzz API using the match ID
 async fn get_match_info_from_id(
     req_clt: &Client,
     match_id: u32,
@@ -228,6 +263,7 @@ async fn get_match_info_from_id(
     Ok(res)
 }
 
+/// Helper function to parse and structure scorecard data from the HTML page
 async fn prepare_scorecard(
     req_clt: &Client,
     id: u32,
@@ -249,6 +285,7 @@ async fn prepare_scorecard(
     Ok(())
 }
 
+/// Parse scorecard data and structure it
 fn parse_scorecard(html: &str, scorecard: &mut Vec<MatchInningsInfo>) {
     let doc = Html::parse_document(html);
 
@@ -260,6 +297,12 @@ fn parse_scorecard(html: &str, scorecard: &mut Vec<MatchInningsInfo>) {
     }
 }
 
+/// Helper function to build structured innings information of a match
+///
+/// # Arguments
+///
+/// * `div` - Refers to the div element in the HTML page containing the innings information
+/// * `scorecard` - Vector of all innings information
 fn populate_innings_info(div: &ElementRef, scorecard: &mut Vec<MatchInningsInfo>) {
     // This unwrap will probably never panic
     let sel_scrd_items = Selector::parse("div.cb-scrd-itms").unwrap();
