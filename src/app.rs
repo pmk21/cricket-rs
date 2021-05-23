@@ -122,7 +122,8 @@ impl App {
     }
 
     /// Updates the App data, basically updates information on all the live matches
-    pub async fn update_on_tick(&mut self) {
+    /// Also returns the indexes of the matches that are no longer live
+    pub async fn update_on_tick(&mut self) -> Vec<usize> {
         // WARN: Update algorithm might be slow for larger number of matches
         // For now this should be fine and not cause any bottlenecks
         let mut match_name_id: Vec<(String, String)> = vec![];
@@ -157,9 +158,11 @@ impl App {
             }
         }
 
-        for i in non_live_matches_idx {
-            self.matches_info.remove(i);
+        for i in &non_live_matches_idx {
+            self.matches_info.remove(*i);
         }
+
+        non_live_matches_idx
     }
 
     /// Returns a vector of short names of all the live matches

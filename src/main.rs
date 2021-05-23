@@ -66,7 +66,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             }
 
             event::Event::Tick => {
-                app.update_on_tick().await;
+                let invalid_idx = app.update_on_tick().await;
+                ui_state.update_on_tick(&invalid_idx);
             }
         }
     }

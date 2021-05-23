@@ -56,6 +56,12 @@ impl UiState {
     pub fn update_scroll_max_length(&mut self, value: u16) {
         self.scrd_scroll[self.focused_tab].1 = value;
     }
+
+    pub fn update_on_tick(&mut self, invalid_idx: &[usize]) {
+        for i in invalid_idx {
+            self.scrd_scroll.remove(*i);
+        }
+    }
 }
 
 pub fn draw_ui<B>(f: &mut Frame<B>, app: &App, ui_state: &mut UiState)
