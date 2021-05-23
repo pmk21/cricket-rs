@@ -1,7 +1,7 @@
 //! # App
 //!
 //! The `app` module is basically used to maintain the app state.
-//! In this case, all the matches information.
+//! In this case, all live matches information.
 
 use reqwest::Client;
 use scraper::{ElementRef, Html, Selector};
