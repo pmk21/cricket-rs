@@ -13,7 +13,52 @@ use tui::{
     Frame,
 };
 
-pub fn draw_ui<B>(f: &mut Frame<B>, app: &App)
+pub struct UiState {
+    pub focused_tab: usize,
+    // Stores current scroll value and max scroll value
+    pub scrd_scroll: Vec<(u16, u16)>,
+}
+
+impl UiState {
+    pub fn new(num_tabs: usize) -> UiState {
+        UiState {
+            focused_tab: 0,
+            scrd_scroll: vec![(0, 0); num_tabs],
+        }
+    }
+
+    pub fn add_focused_tab(&mut self, value: usize) {
+        if self.focused_tab < (self.scrd_scroll.len() - 1) {
+            self.focused_tab = self.focused_tab.saturating_add(value);
+        }
+    }
+
+    pub fn sub_focused_tab(&mut self, value: usize) {
+        self.focused_tab = self.focused_tab.saturating_sub(value);
+    }
+
+    pub fn add_scrd_scroll(&mut self, value: u16) {
+        if self.scrd_scroll[self.focused_tab].0 < self.scrd_scroll[self.focused_tab].1 {
+            self.scrd_scroll[self.focused_tab].0 =
+                self.scrd_scroll[self.focused_tab].0.saturating_add(value);
+        }
+    }
+
+    pub fn sub_scrd_scroll(&mut self, value: u16) {
+        self.scrd_scroll[self.focused_tab].0 =
+            self.scrd_scroll[self.focused_tab].0.saturating_sub(value);
+    }
+
+    pub fn current_scroll_value(&self) -> u16 {
+        self.scrd_scroll[self.focused_tab].0
+    }
+
+    pub fn update_scroll_max_length(&mut self, value: u16) {
+        self.scrd_scroll[self.focused_tab].1 = value;
+    }
+}
+
+pub fn draw_ui<B>(f: &mut Frame<B>, app: &App, ui_state: &mut UiState)
 where
     B: Backend,
 {
@@ -30,12 +75,12 @@ where
     let tabs = Tabs::new(tab_titles)
         .block(Block::default().borders(Borders::ALL).title("Matches"))
         .highlight_style(Style::default().fg(Color::Green))
-        .select(app.focused_tab as usize);
+        .select(ui_state.focused_tab);
     f.render_widget(tabs, chunks[0]);
-    draw_tab(f, chunks[1], app);
+    draw_tab(f, chunks[1], app, ui_state);
 }
 
-fn draw_tab<B>(f: &mut Frame<B>, area: Rect, app: &App)
+fn draw_tab<B>(f: &mut Frame<B>, area: Rect, app: &App, ui_state: &mut UiState)
 where
     B: Backend,
 {
@@ -50,16 +95,16 @@ where
         )
         .split(area);
 
-    let scores = get_match_summary_info(app);
+    let scores = get_match_summary_info(app, ui_state);
 
     let summ_block = Block::default().borders(Borders::ALL).title("Overview");
     let paragraph = Paragraph::new(scores).block(summ_block);
     f.render_widget(paragraph, chunks[0]);
-    draw_live_feed(f, chunks[1], app);
-    draw_scorecard(f, chunks[2], app);
+    draw_live_feed(f, chunks[1], app, ui_state);
+    draw_scorecard(f, chunks[2], app, ui_state);
 }
 
-fn draw_live_feed<B>(f: &mut Frame<B>, area: Rect, app: &App)
+fn draw_live_feed<B>(f: &mut Frame<B>, area: Rect, app: &App, ui_state: &mut UiState)
 where
     B: Backend,
 {
@@ -68,7 +113,7 @@ where
         .direction(Direction::Horizontal)
         .split(area);
 
-    let curr_match = app.current_match_cricbuzz_info();
+    let curr_match = app.current_match_cricbuzz_info(ui_state.focused_tab);
 
     let table = Table::new(vec![
         Row::new(vec!["Batsman", "R", "B", "4", "6", "SR"])
@@ -167,15 +212,15 @@ where
     f.render_widget(key_stats_para, chunks[1]);
 }
 
-fn get_match_summary_info(app: &App) -> Vec<Spans> {
-    let match_info = app.current_match_cricbuzz_info();
+fn get_match_summary_info<'a>(app: &'a App, ui_state: &'a mut UiState) -> Vec<Spans<'a>> {
+    let match_info = app.current_match_cricbuzz_info(ui_state.focused_tab);
     let msd = &match_info.miniscore.match_score_details;
     let mut scores = vec![];
 
     if msd.match_format == "TEST" {
-        get_test_match_summary_info(&mut scores, app);
+        get_test_match_summary_info(&mut scores, &app, ui_state);
     } else if msd.match_format == "ODI" {
-        get_odi_match_summary_info(&mut scores, app);
+        get_odi_match_summary_info(&mut scores, &app, ui_state);
     }
 
     scores.push(Spans::from(Span::styled(
@@ -188,8 +233,8 @@ fn get_match_summary_info(app: &App) -> Vec<Spans> {
     scores
 }
 
-fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App) {
-    let match_info = app.current_match_cricbuzz_info();
+fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mut UiState) {
+    let match_info = app.current_match_cricbuzz_info(ui_state.focused_tab);
     let msd = &match_info.miniscore.match_score_details;
 
     let total_inngs = msd.innings_score_list.len();
@@ -330,8 +375,8 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App) {
     }
 }
 
-fn get_odi_match_summary_info(scores: &mut Vec<Spans>, app: &App) {
-    let match_info = app.current_match_cricbuzz_info();
+fn get_odi_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mut UiState) {
+    let match_info = app.current_match_cricbuzz_info(ui_state.focused_tab);
     let msd = &match_info.miniscore.match_score_details;
 
     let total_inngs = msd.innings_score_list.len();
@@ -385,19 +430,20 @@ fn get_odi_match_summary_info(scores: &mut Vec<Spans>, app: &App) {
     }
 }
 
-fn draw_scorecard<B>(f: &mut Frame<B>, area: Rect, app: &App)
+fn draw_scorecard<B>(f: &mut Frame<B>, area: Rect, app: &App, ui_state: &mut UiState)
 where
     B: Backend,
 {
-    let scorecard = app.current_match_scorecard_info();
+    let scorecard = app.current_match_scorecard_info(ui_state.focused_tab);
     let text = format_scorecard_info(scorecard);
+    ui_state.update_scroll_max_length(text.len() as u16);
 
     let block = Block::default().borders(Borders::ALL).title("Scorecard");
 
     let paragraph = Paragraph::new(text)
         .block(block)
         .wrap(Wrap { trim: true })
-        .scroll((app.matches_info[app.focused_tab].scorecard_scroll, 0));
+        .scroll((ui_state.current_scroll_value(), 0));
     f.render_widget(paragraph, area);
 }
 
@@ -457,7 +503,7 @@ mod test {
     use crate::{
         app::{create_match_info, parse_scorecard_from_file, App},
         cricbuzz_api::CricbuzzJson,
-        display::ui::draw_ui,
+        display::ui::{draw_ui, UiState},
     };
     use tui::{backend::TestBackend, buffer::Cell, Terminal};
 
@@ -515,8 +561,11 @@ mod test {
         let width = 125;
         let height = 35;
         let mut terminal = get_terminal(width, height);
+        let mut ui_state = UiState::new(1);
 
-        terminal.draw(|mut f| draw_ui(&mut f, &app)).unwrap();
+        terminal
+            .draw(|mut f| draw_ui(&mut f, &app, &mut ui_state))
+            .unwrap();
 
         let out = terminal.backend().buffer().content().to_vec();
         let out = format_backend(out, width);

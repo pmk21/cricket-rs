@@ -39,14 +39,12 @@ pub struct MatchInfo {
     pub cricbuzz_match_api_link: String,
     pub cricbuzz_info: CricbuzzJson,
     pub scorecard: Vec<MatchInningsInfo>,
-    pub scorecard_scroll: u16,
 }
 
 #[derive(Default)]
 pub struct App {
     req_clt: Client,
     pub matches_info: Vec<MatchInfo>,
-    pub focused_tab: usize,
 }
 
 const CRICBUZZ_URL: &str = "https://www.cricbuzz.com";
@@ -94,12 +92,9 @@ impl App {
             }
         }
 
-        let focused_tab = 0;
-
         App {
             req_clt,
             matches_info,
-            focused_tab,
         }
     }
 
@@ -152,12 +147,12 @@ impl App {
         names
     }
 
-    pub fn current_match_cricbuzz_info(&self) -> &CricbuzzJson {
-        &self.matches_info[self.focused_tab].cricbuzz_info
+    pub fn current_match_cricbuzz_info(&self, idx: usize) -> &CricbuzzJson {
+        &self.matches_info[idx].cricbuzz_info
     }
 
-    pub fn current_match_scorecard_info(&self) -> &Vec<MatchInningsInfo> {
-        &self.matches_info[self.focused_tab].scorecard
+    pub fn current_match_scorecard_info(&self, idx: usize) -> &Vec<MatchInningsInfo> {
+        &self.matches_info[idx].scorecard
     }
 }
 
@@ -175,7 +170,6 @@ impl MatchInfo {
             cricbuzz_match_api_link,
             cricbuzz_info,
             scorecard,
-            scorecard_scroll: 0,
         }
     }
 }
