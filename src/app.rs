@@ -42,6 +42,7 @@ pub struct MatchInfo {
     pub scorecard_scroll: u16,
 }
 
+#[derive(Default)]
 pub struct App {
     req_clt: Client,
     pub matches_info: Vec<MatchInfo>,
@@ -328,6 +329,28 @@ fn populate_innings_info(div: &ElementRef, scorecard: &mut Vec<MatchInningsInfo>
         }
     }
     scorecard.push(match_inngs_info);
+}
+
+#[cfg(test)]
+pub fn parse_scorecard_from_file(file: &str, scorecard: &mut Vec<MatchInningsInfo>) {
+    parse_scorecard(file, scorecard);
+}
+
+#[cfg(test)]
+pub fn create_match_info(
+    match_short_name: String,
+    cricbuzz_match_id: u32,
+    cricbuzz_match_api_link: String,
+    cricbuzz_info: CricbuzzJson,
+    scorecard: Vec<MatchInningsInfo>,
+) -> MatchInfo {
+    MatchInfo::new(
+        match_short_name,
+        cricbuzz_match_id,
+        cricbuzz_match_api_link,
+        cricbuzz_info,
+        scorecard,
+    )
 }
 
 #[cfg(test)]

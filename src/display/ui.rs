@@ -449,3 +449,83 @@ fn format_scorecard_info(scorecard: &[MatchInningsInfo]) -> Vec<Spans> {
 
     text
 }
+
+#[cfg(test)]
+mod test {
+    use std::fs;
+
+    use crate::{
+        app::{create_match_info, parse_scorecard_from_file, App},
+        cricbuzz_api::CricbuzzJson,
+        display::ui::draw_ui,
+    };
+    use tui::{backend::TestBackend, buffer::Cell, Terminal};
+
+    // Path is relative to where `cargo test` command is run
+    const TEST_FILES_PATH: &str = "./tests/data/";
+
+    // Path is relative to where the testfile is present
+    const SNAPSHOTS_PATH: &str = "../../tests/snapshots";
+
+    fn get_terminal(width: u16, height: u16) -> Terminal<TestBackend> {
+        let backend = TestBackend::new(width, height);
+        let terminal = Terminal::new(backend).unwrap();
+        terminal
+    }
+
+    fn format_backend(out: Vec<Cell>, width: u16) -> String {
+        let mut s = String::new();
+
+        for (i, c) in out.iter().enumerate() {
+            if i != 0 && (i % (width as usize)) == 0 {
+                s.push('\n');
+                s.push_str(c.symbol.as_str());
+            } else {
+                s.push_str(c.symbol.as_str());
+            }
+        }
+        s
+    }
+
+    #[test]
+    fn test_odi_first_inngs_draw_ui() {
+        let mut app = App::default();
+
+        let scrd_data = fs::read_to_string(format!(
+            "{}{}",
+            TEST_FILES_PATH, "cricbuzz_odi_scorecard_first_innings.txt"
+        ))
+        .unwrap();
+        let json_data = fs::read_to_string(format!(
+            "{}{}",
+            TEST_FILES_PATH, "cricbuzz_odi_first_innings.json"
+        ))
+        .unwrap();
+
+        let json: CricbuzzJson = serde_json::from_str(&json_data).unwrap();
+        let mut scorecard = vec![];
+        parse_scorecard_from_file(&scrd_data, &mut scorecard);
+        let match_short_name = "BAN vs SL".to_string();
+        let api_link = "".to_string();
+
+        let match_info = create_match_info(match_short_name, 36096, api_link, json, scorecard);
+
+        app.matches_info.push(match_info);
+
+        let width = 125;
+        let height = 35;
+        let mut terminal = get_terminal(width, height);
+
+        terminal.draw(|mut f| draw_ui(&mut f, &app)).unwrap();
+
+        let out = terminal.backend().buffer().content().to_vec();
+        let out = format_backend(out, width);
+
+        let mut settings = insta::Settings::clone_current();
+        settings.set_snapshot_path(SNAPSHOTS_PATH);
+
+        settings.bind(|| {
+            insta::assert_display_snapshot!(out);
+        });
+    }
+}
