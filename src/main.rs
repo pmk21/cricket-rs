@@ -1,3 +1,4 @@
+use clap;
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
@@ -18,6 +19,26 @@ use display::ui::{draw_ui, UiState};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    let matches = clap::App::new("cricket-rs")
+        .version("0.1.0")
+        .author("Prithvi MK <prithvikrishna49 AT gmail DOT com>")
+        .about("Fast and optimized live cricket score viewer in the terminal")
+        .arg(
+            clap::Arg::with_name("tick-rate")
+                .short("t")
+                .long("tick-rate")
+                .value_name("milliseconds")
+                .help("Sets match details refresh rate")
+                .default_value("10000")
+                .takes_value(true),
+        )
+        .get_matches();
+
+    let tick_rate = match matches.value_of("tick-rate").unwrap().parse() {
+        Ok(v) => v,
+        Err(_) => 10000,
+    };
+
     let mut app = App::new().await;
 
     // UI part
@@ -29,7 +50,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let backend = CrosstermBackend::new(stdout);
     let mut terminal = Terminal::new(backend)?;
 
-    let events = event::Events::new(5000);
+    let events = event::Events::new(tick_rate);
 
     loop {
         if !app.matches_info.is_empty() {
