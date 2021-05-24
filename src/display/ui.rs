@@ -15,7 +15,7 @@ use tui::{
 
 /// Stores the UI state i.e. current tab, scroll state of scorecard
 pub struct UiState {
-    /// Selected tab 
+    /// Selected tab
     pub focused_tab: usize,
     /// Stores current scroll value and max scroll value for each tab
     pub scrd_scroll: Vec<(u16, u16)>,
@@ -40,7 +40,7 @@ impl UiState {
             self.focused_tab = self.focused_tab.saturating_add(value);
         }
     }
-    
+
     /// Subtract a value from the `focused_tab` property
     pub fn sub_focused_tab(&mut self, value: usize) {
         self.focused_tab = self.focused_tab.saturating_sub(value);
@@ -51,10 +51,10 @@ impl UiState {
         // Should not cross maximum lines present in the scorecard
         if self.scrd_scroll[self.focused_tab].0 < self.scrd_scroll[self.focused_tab].1 {
             self.scrd_scroll[self.focused_tab].0 =
-            self.scrd_scroll[self.focused_tab].0.saturating_add(value);
+                self.scrd_scroll[self.focused_tab].0.saturating_add(value);
         }
     }
-    
+
     /// Decrement the scroll value of a particular tab index
     pub fn sub_scrd_scroll(&mut self, value: u16) {
         self.scrd_scroll[self.focused_tab].0 =
