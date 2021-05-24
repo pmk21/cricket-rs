@@ -1,4 +1,3 @@
-use clap;
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
@@ -34,10 +33,11 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         )
         .get_matches();
 
-    let tick_rate = match matches.value_of("tick-rate").unwrap().parse() {
-        Ok(v) => v,
-        Err(_) => 10000,
-    };
+    let tick_rate = matches
+        .value_of("tick-rate")
+        .unwrap()
+        .parse()
+        .unwrap_or(10000);
 
     let mut app = App::new().await;
 
