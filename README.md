@@ -29,3 +29,7 @@ OPTIONS:
 | ------------ | --------------------- |
 | <kbd>↑</kbd> | Scroll scorecard up   |
 | <kbd>↓</kbd> | Scroll scorecard down |
+
+## License
+
+MIT License
