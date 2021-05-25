@@ -329,19 +329,31 @@ fn populate_innings_info(div: &ElementRef, scorecard: &mut Vec<MatchInningsInfo>
                     .to_string();
             }
 
-            bat_info.status = divs
-                .next()
-                .unwrap()
-                .text()
-                .collect::<Vec<&str>>()
-                .concat()
-                .trim()
-                .to_string();
-            bat_info.runs = divs.next().unwrap().inner_html().trim().to_string();
-            bat_info.balls = divs.next().unwrap().inner_html().trim().to_string();
-            bat_info.fours = divs.next().unwrap().inner_html().trim().to_string();
-            bat_info.sixes = divs.next().unwrap().inner_html().trim().to_string();
-            bat_info.strike_rate = divs.next().unwrap().inner_html().trim().to_string();
+            if let Some(div) = divs.next() {
+                bat_info.status = div
+                    .text()
+                    .collect::<Vec<&str>>()
+                    .concat()
+                    .trim()
+                    .to_string()
+            }
+
+            if let Some(div) = divs.next() {
+                bat_info.runs = div.inner_html().trim().to_string();
+            }
+
+            if let Some(div) = divs.next() {
+                bat_info.balls = div.inner_html().trim().to_string();
+            }
+            if let Some(div) = divs.next() {
+                bat_info.fours = div.inner_html().trim().to_string();
+            }
+            if let Some(div) = divs.next() {
+                bat_info.sixes = div.inner_html().trim().to_string();
+            }
+            if let Some(div) = divs.next() {
+                bat_info.strike_rate = div.inner_html().trim().to_string();
+            }
 
             match_inngs_info.batsman_details.push(bat_info);
         } else if num_child_div == 8 {
@@ -357,13 +369,33 @@ fn populate_innings_info(div: &ElementRef, scorecard: &mut Vec<MatchInningsInfo>
                     .to_string();
             }
 
-            bowl_info.overs = divs.next().unwrap().inner_html().trim().to_string();
-            bowl_info.maidens = divs.next().unwrap().inner_html().trim().to_string();
-            bowl_info.runs = divs.next().unwrap().inner_html().trim().to_string();
-            bowl_info.wickets = divs.next().unwrap().inner_html().trim().to_string();
-            bowl_info.no_balls = divs.next().unwrap().inner_html().trim().to_string();
-            bowl_info.wides = divs.next().unwrap().inner_html().trim().to_string();
-            bowl_info.economy = divs.next().unwrap().inner_html().trim().to_string();
+            if let Some(div) = divs.next() {
+                bowl_info.overs = div.inner_html().trim().to_string();
+            }
+
+            if let Some(div) = divs.next() {
+                bowl_info.maidens = div.inner_html().trim().to_string();
+            }
+
+            if let Some(div) = divs.next() {
+                bowl_info.runs = div.inner_html().trim().to_string();
+            }
+
+            if let Some(div) = divs.next() {
+                bowl_info.wickets = div.inner_html().trim().to_string();
+            }
+
+            if let Some(div) = divs.next() {
+                bowl_info.no_balls = div.inner_html().trim().to_string();
+            }
+
+            if let Some(div) = divs.next() {
+                bowl_info.wides = div.inner_html().trim().to_string();
+            }
+
+            if let Some(div) = divs.next() {
+                bowl_info.economy = div.inner_html().trim().to_string();
+            }
 
             match_inngs_info.bowler_details.push(bowl_info);
         }
