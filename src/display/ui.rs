@@ -245,8 +245,8 @@ fn get_match_summary_info<'a>(app: &'a App, ui_state: &'a mut UiState) -> Vec<Sp
 
     if msd.match_format == "TEST" {
         get_test_match_summary_info(&mut scores, &app, ui_state);
-    } else if msd.match_format == "ODI" {
-        get_odi_match_summary_info(&mut scores, &app, ui_state);
+    } else if msd.match_format == "ODI" || msd.match_format == "T20" {
+        get_lim_ovs_match_summary_info(&mut scores, &app, ui_state);
     }
 
     scores.push(Spans::from(Span::styled(
@@ -402,8 +402,8 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mu
     }
 }
 
-/// Builds the score summary for an ODI match
-fn get_odi_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mut UiState) {
+/// Builds the score summary for an ODI or a T20 match
+fn get_lim_ovs_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mut UiState) {
     let match_info = app.current_match_cricbuzz_info(ui_state.focused_tab);
     let msd = &match_info.miniscore.match_score_details;
 
