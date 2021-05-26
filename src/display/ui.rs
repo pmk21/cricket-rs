@@ -49,7 +49,7 @@ impl UiState {
     /// Increment the scroll value of a particular tab index
     pub fn add_scrd_scroll(&mut self, value: u16) {
         // Should not cross maximum lines present in the scorecard
-        if self.scrd_scroll[self.focused_tab].0 < self.scrd_scroll[self.focused_tab].1 {
+        if self.scrd_scroll[self.focused_tab].0 < (self.scrd_scroll[self.focused_tab].1 - 2) {
             self.scrd_scroll[self.focused_tab].0 =
                 self.scrd_scroll[self.focused_tab].0.saturating_add(value);
         }
