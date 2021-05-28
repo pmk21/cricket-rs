@@ -237,11 +237,14 @@ fn parse_all_live_matches_id_and_short_name(html: &str, match_id_name: &mut Vec<
                 .trim()
                 .to_string();
             if !text.is_empty() && !text.eq("MATCHES") {
-                if let Some(spl) = text.split('-').nth(1) {
-                    if spl.trim().eq("Live") {
+                let words = text.split('-').collect::<Vec<&str>>();
+                if words.len() >= 2 {
+                    let status = words[1];
+                    if status.trim().eq("Live") {
                         if let Some(href) = link.value().attr("href") {
                             let split_str = href.split('/').collect::<Vec<&str>>();
-                            match_id_name.push((text, split_str[2].to_string()));
+                            match_id_name
+                                .push((words[0].trim().to_string(), split_str[2].to_string()));
                         }
                     }
                 }
@@ -450,10 +453,10 @@ mod tests {
         let html = fs::read_to_string(fp).unwrap();
 
         let res_match_id_name: Vec<(String, String)> = vec![
-            ("KENT vs GLAM - Live".to_string(), "33238".to_string()),
-            ("HAM vs LEIC - Live".to_string(), "33243".to_string()),
-            ("SUR vs MDX - Live".to_string(), "33253".to_string()),
-            ("GLOUCS vs SOM - Live".to_string(), "33248".to_string()),
+            ("KENT vs GLAM".to_string(), "33238".to_string()),
+            ("HAM vs LEIC".to_string(), "33243".to_string()),
+            ("SUR vs MDX".to_string(), "33253".to_string()),
+            ("GLOUCS vs SOM".to_string(), "33248".to_string()),
         ];
         let mut match_id_name = vec![];
 
