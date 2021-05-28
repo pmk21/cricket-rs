@@ -6,8 +6,15 @@ A terminal based fast and optimized live cricket score viewer.
 
 ![Terminal UI for cricket-rs](examples/cricket-rs-screenshot.png)
 
+## Supported Operating Systems
+
+* Should support any Linux distro(if not, please open an issue).
+* Windows.
+* MacOS(Not tested).
+
 ## Installation
 
+* Download the binary for your OS from [releases](https://github.com/pmk21/cricket-rs/releases).
 * Install directly from the repository -
    1. **Prerequisites:** `rust` and `cargo`
    2. `git clone` this repository.
