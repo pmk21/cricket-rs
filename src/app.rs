@@ -170,7 +170,13 @@ impl App {
         let names: Vec<String> = self
             .matches_info
             .iter()
-            .map(|m| m.match_short_name.clone())
+            .map(|m| {
+                format!(
+                    "{} - {}",
+                    m.match_short_name,
+                    m.cricbuzz_info.match_format()
+                )
+            })
             .collect();
         names
     }

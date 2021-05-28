@@ -412,4 +412,8 @@ impl CricbuzzJson {
     pub fn toss_decision(&self) -> &str {
         &self.miniscore.match_score_details.toss_results.decision
     }
+
+    pub fn match_format(&self) -> &str {
+        &self.miniscore.match_score_details.match_format
+    }
 }
