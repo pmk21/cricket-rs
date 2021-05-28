@@ -271,13 +271,11 @@ async fn get_match_info_from_id(
         .text()
         .await?;
 
-    let result = if let Ok(res) = serde_json::from_str::<CricbuzzJson>(&resp) {
+    if let Ok(res) = serde_json::from_str::<CricbuzzJson>(&resp) {
         Ok(res)
     } else {
         Err("Failed to parse JSON".into())
-    };
-
-    result
+    }
 }
 
 /// Helper function to parse and structure scorecard data from the HTML page
