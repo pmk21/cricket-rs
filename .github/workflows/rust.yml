@@ -11,20 +11,6 @@ env:
   RUST_BACKTRACE: 1
 
 jobs:
-  test:
-    name: Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-      - uses: actions-rs/cargo@v1
-        with:
-          command: test
-
   fmt:
     name: Rustfmt
     runs-on: ubuntu-latest
@@ -52,9 +38,9 @@ jobs:
             toolchain: stable
             components: clippy
         - uses: actions-rs/clippy-check@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          args: -- -D warnings
+          with:
+            token: ${{ secrets.GITHUB_TOKEN }}
+            args: -- -D warnings
   
   build:
     name: ${{ matrix.job.os }} (${{ matrix.job.target }})
@@ -63,9 +49,9 @@ jobs:
       fail-fast: false
       matrix:
         job:
-          - { os: ubuntu-latest , target: x86_64-unknown-linux-gnu    }
-          - { os: macos-latest  , target: x86_64-apple-darwin         }
-          - { os: windows-latest , target: x86_64-pc-windows-gnu      }
+          - { os: ubuntu-20.04 , target: x86_64-unknown-linux-gnu    }
+          - { os: macos-10.15  , target: x86_64-apple-darwin         }
+          - { os: windows-2020 , target: x86_64-pc-windows-gnu       }
     steps:
     - name: Checkout source code
       uses: actions/checkout@v2
@@ -76,7 +62,11 @@ jobs:
         target: ${{ matrix.job.target }}
         override: true
         profile: minimal # minimal component installation (ie, no documentation)
-
+    - name: Run tests
+      uses: actions-rs/cargo@v1
+      with:
+        command: test
+        args: --target=${{ matrix.job.target }} ${{ steps.test-options.outputs.CARGO_TEST_OPTIONS}}
     - name: Build
       uses: actions-rs/cargo@v1
       with:
