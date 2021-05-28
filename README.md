@@ -1,5 +1,7 @@
 # cricket-rs
 
+![CI](https://github.com/pmk21/cricket-rs/workflows/CI/badge.svg)
+
 A terminal based fast and optimized live cricket score viewer.
 
 ![Terminal UI for cricket-rs](examples/cricket-rs-screenshot.png)
