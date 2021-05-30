@@ -32,6 +32,15 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .default_value("10000")
                 .takes_value(true),
         )
+        .arg(
+            clap::Arg::with_name("match-id")
+                .short("m")
+                .long("match-id")
+                .value_name("ID given to the match by Cricbuzz")
+                .help("View live score of a selected match only")
+                .default_value("0")
+                .takes_value(true),
+        )
         .get_matches();
 
     let tick_rate = matches
@@ -40,7 +49,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .parse()
         .unwrap_or(10000);
 
-    let mut app = App::new().await;
+    let match_id = matches.value_of("match-id").unwrap().parse().unwrap_or(0);
+
+    let mut app = if match_id == 0 {
+        App::new().await
+    } else {
+        App::new_with_match_id(match_id).await
+    };
 
     // UI part
     let mut ui_state = UiState::new(app.matches_info.len());

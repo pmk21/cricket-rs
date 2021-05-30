@@ -31,8 +31,15 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-    -t, --tick-rate <milliseconds>    Sets match details refresh rate [default: 10000]
+    -m, --match-id <ID given to the match by Cricbuzz>    View live score of a selected match only [default: 0]
+    -t, --tick-rate <milliseconds>                        Sets match details refresh rate [default: 10000]
 ```
+
+* How to get the match ID -
+  * Go to the cricbuzz page showing the match live.
+  * From the URL of the page extract the match ID.
+  * Example URL - `https://www.cricbuzz.com/live-cricket-scores/<match-id>/series-name...`.
+  * Then run the CLI using the match ID - `cricket-rs -m <match-id>`.
 
 ## Keyboard Bindings
 

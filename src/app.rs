@@ -122,6 +122,42 @@ impl App {
         }
     }
 
+    pub async fn new_with_match_id(match_id: u32) -> App {
+        let mut matches_info = vec![];
+        let mut scorecard: Vec<MatchInningsInfo> = vec![];
+        let req_clt = Client::new();
+
+        if let Ok(json) = get_match_info_from_id(&req_clt, match_id).await {
+            let short_name = format!("{} vs {}", json.home_team_name(), json.away_team_name());
+            if prepare_scorecard(&req_clt, match_id, &mut scorecard)
+                .await
+                .is_ok()
+            {
+                matches_info.push(MatchInfo::new(
+                    short_name,
+                    match_id,
+                    format!("{}{}", String::from(CRICBUZZ_MATCH_API), match_id),
+                    json,
+                    scorecard.clone(),
+                ));
+                scorecard.clear();
+            } else {
+                matches_info.push(MatchInfo::new(
+                    short_name,
+                    match_id,
+                    format!("{}{}", String::from(CRICBUZZ_MATCH_API), match_id),
+                    json,
+                    vec![],
+                ));
+            }
+        }
+
+        App {
+            req_clt,
+            matches_info,
+        }
+    }
+
     /// Updates the App data, basically updates information on all the live matches
     /// Also returns the indexes of the matches that are no longer live
     pub async fn update_on_tick(&mut self) -> Vec<usize> {
