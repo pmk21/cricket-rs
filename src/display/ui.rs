@@ -366,8 +366,8 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mu
         let mut teams: HashMap<&str, Vec<&CricbuzzMiniscoreMatchScoreDetailsInningsScore>> =
             HashMap::new();
 
-        let bat_team_name = msd.match_team_info[2].batting_team_short_name.as_str();
-        let bowl_team_name = msd.match_team_info[2].bowling_team_short_name.as_str();
+        let bat_team_name = msd.match_team_info[3].batting_team_short_name.as_str();
+        let bowl_team_name = msd.match_team_info[3].bowling_team_short_name.as_str();
 
         for inns_score in &msd.innings_score_list {
             teams
