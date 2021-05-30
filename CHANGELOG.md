@@ -7,3 +7,4 @@
 * Follow only a single match if that's your preference.
 * Customizable refresh rate.
 * Fast and memory efficient thanks to Rust.
+* Supports Linux, Windows & MacOS
