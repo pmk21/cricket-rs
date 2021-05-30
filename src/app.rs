@@ -89,28 +89,29 @@ impl App {
 
         // For each live match populate required data
         for (name, id) in &match_name_id {
-            let match_id: u32 = id.parse().unwrap();
-            if let Ok(json) = get_match_info_from_id(&req_clt, match_id).await {
-                if prepare_scorecard(&req_clt, match_id, &mut scorecard)
-                    .await
-                    .is_ok()
-                {
-                    matches_info.push(MatchInfo::new(
-                        name.to_string(),
-                        match_id,
-                        format!("{}{}", String::from(CRICBUZZ_MATCH_API), match_id),
-                        json,
-                        scorecard.clone(),
-                    ));
-                    scorecard.clear();
-                } else {
-                    matches_info.push(MatchInfo::new(
-                        name.to_string(),
-                        match_id,
-                        format!("{}{}", String::from(CRICBUZZ_MATCH_API), match_id),
-                        json,
-                        vec![],
-                    ));
+            if let Ok(match_id) = id.parse() {
+                if let Ok(json) = get_match_info_from_id(&req_clt, match_id).await {
+                    if prepare_scorecard(&req_clt, match_id, &mut scorecard)
+                        .await
+                        .is_ok()
+                    {
+                        matches_info.push(MatchInfo::new(
+                            name.to_string(),
+                            match_id,
+                            format!("{}{}", String::from(CRICBUZZ_MATCH_API), match_id),
+                            json,
+                            scorecard.clone(),
+                        ));
+                        scorecard.clear();
+                    } else {
+                        matches_info.push(MatchInfo::new(
+                            name.to_string(),
+                            match_id,
+                            format!("{}{}", String::from(CRICBUZZ_MATCH_API), match_id),
+                            json,
+                            vec![],
+                        ));
+                    }
                 }
             }
         }
@@ -231,6 +232,8 @@ async fn get_all_live_matches_id_and_short_name(
 /// * `match_id_name` - A vector containing a tuple of match short name and ID
 fn parse_all_live_matches_id_and_short_name(html: &str, match_id_name: &mut Vec<(String, String)>) {
     let doc = Html::parse_document(html);
+
+    /* These unwraps will not panic */
     let nav_sel = Selector::parse("nav.cb-mat-mnu").unwrap();
     let sel_a = Selector::parse("a").unwrap();
 
@@ -305,6 +308,7 @@ fn parse_scorecard(html: &str, scorecard: &mut Vec<MatchInningsInfo>) {
     let doc = Html::parse_document(html);
 
     for ino in 1..5 {
+        // This unwrap will not panic
         let inngs_sel = Selector::parse(format!("div[id=\"innings_{}\"]", ino).as_str()).unwrap();
         if let Some(div) = doc.select(&inngs_sel).next() {
             populate_innings_info(&div, scorecard);
@@ -319,7 +323,7 @@ fn parse_scorecard(html: &str, scorecard: &mut Vec<MatchInningsInfo>) {
 /// * `div` - Refers to the div element in the HTML page containing the innings information
 /// * `scorecard` - Vector of all innings information
 fn populate_innings_info(div: &ElementRef, scorecard: &mut Vec<MatchInningsInfo>) {
-    // This unwrap will probably never panic
+    // These unwraps will never panic
     let sel_scrd_items = Selector::parse("div.cb-scrd-itms").unwrap();
     let sel_div = Selector::parse("div").unwrap();
 
@@ -454,6 +458,7 @@ mod tests {
     #[test]
     fn test_parse_all_live_matches_id_and_short_name_four_live_matches() {
         let fp = format!("{}{}", TEST_FILES_PATH, "cricbuzz_home_four_live.txt");
+        // This unwrap ideally will not panic
         let html = fs::read_to_string(fp).unwrap();
 
         let res_match_id_name: Vec<(String, String)> = vec![
@@ -472,6 +477,7 @@ mod tests {
     #[test]
     fn test_parse_all_live_matches_id_and_short_name_no_live_matches() {
         let fp = format!("{}{}", TEST_FILES_PATH, "cricbuzz_home_no_live.txt");
+        // This unwrap ideally will not panic
         let html = fs::read_to_string(fp).unwrap();
 
         let res_match_id_name: Vec<(String, String)> = vec![];
@@ -488,6 +494,7 @@ mod tests {
             "{}{}",
             TEST_FILES_PATH, "cricbuzz_scorecard_one_innings.txt"
         );
+        // This unwrap ideally will not panic
         let html = fs::read_to_string(fp).unwrap();
 
         let mut scorecard = vec![];
@@ -508,6 +515,7 @@ mod tests {
             "{}{}",
             TEST_FILES_PATH, "cricbuzz_scorecard_two_innings.txt"
         );
+        // This unwrap ideally will not panic
         let html = fs::read_to_string(fp).unwrap();
 
         let mut scorecard = vec![];
@@ -528,6 +536,7 @@ mod tests {
             "{}{}",
             TEST_FILES_PATH, "cricbuzz_scorecard_three_innings.txt"
         );
+        // This unwrap ideally will not panic
         let html = fs::read_to_string(fp).unwrap();
 
         let mut scorecard = vec![];
@@ -548,6 +557,7 @@ mod tests {
             "{}{}",
             TEST_FILES_PATH, "cricbuzz_scorecard_four_innings.txt"
         );
+        // This unwrap ideally will not panic
         let html = fs::read_to_string(fp).unwrap();
 
         let mut scorecard = vec![];
