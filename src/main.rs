@@ -82,7 +82,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         match events.next()? {
             event::Event::Input(key) => {
                 match key {
-                    Key::Ctrl('c') => {
+                    Key::Ctrl('c') | Key::Char('q') => {
                         safely_close_tui()?;
                         break;
                     }
