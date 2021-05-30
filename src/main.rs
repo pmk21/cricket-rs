@@ -1,3 +1,4 @@
+use clap::crate_version;
 use crossterm::{
     event::{DisableMouseCapture, EnableMouseCapture},
     execute,
@@ -19,7 +20,7 @@ use display::ui::{draw_ui, UiState};
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let matches = clap::App::new("cricket-rs")
-        .version("0.1.0")
+        .version(crate_version!())
         .author("Prithvi MK <prithvikrishna49 AT gmail DOT com>")
         .about("Fast and optimized live cricket score viewer in the terminal")
         .arg(
