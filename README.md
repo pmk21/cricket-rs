@@ -43,11 +43,13 @@ OPTIONS:
 
 ## Keyboard Bindings
 
-| Key                         | Description           |
-| --------------------------- | --------------------- |
-| <kbd>↑</kbd>                | Scroll scorecard up   |
-| <kbd>↓</kbd>                | Scroll scorecard down |
-| <kbd>←</kbd> & <kbd>→</kbd> | Switch tabs/matches   |
+| Key                                            | Description           |
+| ---------------------------------------------- | --------------------- |
+| <kbd>↑</kbd>                                   | Scroll scorecard up   |
+| <kbd>↓</kbd>                                   | Scroll scorecard down |
+| <kbd>←</kbd> & <kbd>→</kbd>                    | Switch tabs/matches   |
+| <kbd>Ctrl</kbd> + <kbd>C</kbd> or <kbd>q</kbd> | Switch tabs/matches   |
+
 
 ## Contributing
 
