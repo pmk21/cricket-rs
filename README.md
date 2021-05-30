@@ -42,6 +42,10 @@ OPTIONS:
 | <kbd>↓</kbd>                | Scroll scorecard down |
 | <kbd>←</kbd> & <kbd>→</kbd> | Switch tabs/matches   |
 
+## Contributing
+
+Take a look at the [guide](CONTRIBUTING.md).
+
 ## License
 
 MIT License
