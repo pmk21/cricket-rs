@@ -5,77 +5,81 @@
 
 use serde::Deserialize;
 
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct CricbuzzOverSeparator {
-    pub score: u32,
-    pub wickets: u32,
-    pub innings_id: u32,
-    pub o_summary: String,
-    pub runs: u32,
-    pub bat_striker_ids: Vec<u32>,
-    pub bat_striker_names: Vec<String>,
-    pub bat_striker_runs: u32,
-    pub bat_striker_balls: u32,
-    pub bat_non_striker_ids: Vec<u32>,
-    pub bat_non_striker_names: Vec<String>,
-    pub bat_non_striker_runs: u32,
-    pub bat_non_striker_balls: u32,
-    pub bowl_ids: Vec<u32>,
-    pub bowl_names: Vec<String>,
-    pub bowl_overs: f32,
-    pub bowl_maidens: u32,
-    pub bowl_runs: u32,
-    pub bowl_wickets: u32,
-    pub timestamp: u64,
-    pub over_num: f32,
-    pub bat_team_name: String,
-    pub event: String,
-}
+/* -- Not Used -- */
+// #[derive(Debug, Deserialize)]
+// #[serde(rename_all = "camelCase")]
+// pub struct CricbuzzOverSeparator {
+//     pub score: u32,
+//     pub wickets: u32,
+//     pub innings_id: u32,
+//     pub o_summary: String,
+//     pub runs: u32,
+//     pub bat_striker_ids: Vec<u32>,
+//     pub bat_striker_names: Vec<String>,
+//     pub bat_striker_runs: u32,
+//     pub bat_striker_balls: u32,
+//     pub bat_non_striker_ids: Vec<u32>,
+//     pub bat_non_striker_names: Vec<String>,
+//     pub bat_non_striker_runs: u32,
+//     pub bat_non_striker_balls: u32,
+//     pub bowl_ids: Vec<u32>,
+//     pub bowl_names: Vec<String>,
+//     pub bowl_overs: f32,
+//     pub bowl_maidens: u32,
+//     pub bowl_runs: u32,
+//     pub bowl_wickets: u32,
+//     pub timestamp: u64,
+//     pub over_num: f32,
+//     pub bat_team_name: String,
+//     pub event: String,
+// }
 
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct CricbuzzBatsmanStriker {
-    pub bat_balls: u32,
-    pub bat_dots: u32,
-    pub bat_fours: u32,
-    pub bat_id: u32,
-    pub bat_name: String,
-    pub bat_mins: u32,
-    pub bat_runs: u32,
-    pub bat_sixes: u32,
-    pub bat_strike_rate: f32,
-}
+/* -- Not Used -- */
+// #[derive(Debug, Deserialize)]
+// #[serde(rename_all = "camelCase")]
+// pub struct CricbuzzBatsmanStriker {
+//     pub bat_balls: u32,
+//     pub bat_dots: u32,
+//     pub bat_fours: u32,
+//     pub bat_id: u32,
+//     pub bat_name: String,
+//     pub bat_mins: u32,
+//     pub bat_runs: u32,
+//     pub bat_sixes: u32,
+//     pub bat_strike_rate: f32,
+// }
 
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct CricbuzzBowlerStriker {
-    pub bowl_id: u32,
-    pub bowl_name: String,
-    pub bowl_maidens: u32,
-    pub bowl_noballs: u32,
-    pub bowl_ovs: f32,
-    pub bowl_runs: u32,
-    pub bowl_wides: u32,
-    pub bowl_wkts: u32,
-    pub bowl_econ: f32,
-}
+/* -- Not Used -- */
+// #[derive(Debug, Deserialize)]
+// #[serde(rename_all = "camelCase")]
+// pub struct CricbuzzBowlerStriker {
+//     pub bowl_id: u32,
+//     pub bowl_name: String,
+//     pub bowl_maidens: u32,
+//     pub bowl_noballs: u32,
+//     pub bowl_ovs: f32,
+//     pub bowl_runs: u32,
+//     pub bowl_wides: u32,
+//     pub bowl_wkts: u32,
+//     pub bowl_econ: f32,
+// }
 
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct CricbuzzCommentary {
-    pub comm_text: String,
-    pub timestamp: u64,
-    pub ball_nbr: u32,
-    pub over_number: f32,
-    pub innings_id: u32,
-    pub event: String,
-    pub bat_team_name: String,
-    pub commentary_formats: Vec<String>, // Not sure about data type
-    pub over_separator: CricbuzzOverSeparator,
-    pub batsman_striker: CricbuzzBatsmanStriker,
-    pub bowler_striker: CricbuzzBowlerStriker,
-}
+/* -- Not Used -- */
+// #[derive(Debug, Deserialize)]
+// #[serde(rename_all = "camelCase")]
+// pub struct CricbuzzCommentary {
+//     pub comm_text: String,
+//     pub timestamp: u64,
+//     pub ball_nbr: u32,
+//     pub over_number: f32,
+//     pub innings_id: u32,
+//     pub event: String,
+//     pub bat_team_name: String,
+//     pub commentary_formats: Vec<String>, // Not sure about data type
+//     pub over_separator: CricbuzzOverSeparator,
+//     pub batsman_striker: CricbuzzBatsmanStriker,
+//     pub bowler_striker: CricbuzzBowlerStriker,
+// }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -240,21 +244,22 @@ pub struct CricbuzzMiniscoreLatestPerformance {
     pub label: String,
 }
 
-#[derive(Debug, Deserialize)]
-#[serde(rename_all = "camelCase")]
-pub struct CricbuzzMiniscoreMatchUdrs {
-    pub match_id: u32,
-    pub innings_id: u32,
-    pub timestamp: String,
-    pub team1_id: u32,
-    pub team1_remaining: u32,
-    pub team1_successful: u32,
-    pub team1_unsuccessful: u32,
-    pub team2_id: u32,
-    pub team2_remaining: u32,
-    pub team2_successful: u32,
-    pub team2_unsuccessful: u32,
-}
+/* -- Not Used -- */
+// #[derive(Debug, Deserialize)]
+// #[serde(rename_all = "camelCase")]
+// pub struct CricbuzzMiniscoreMatchUdrs {
+//     pub match_id: u32,
+//     pub innings_id: u32,
+//     pub timestamp: String,
+//     pub team1_id: u32,
+//     pub team1_remaining: u32,
+//     pub team1_successful: u32,
+//     pub team1_unsuccessful: u32,
+//     pub team2_id: u32,
+//     pub team2_remaining: u32,
+//     pub team2_successful: u32,
+//     pub team2_unsuccessful: u32,
+// }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -273,7 +278,6 @@ pub struct CricbuzzMiniscore {
     pub last_wicket: Option<String>,
     pub match_score_details: CricbuzzMiniscoreMatchScoreDetails,
     pub latest_performance: Vec<CricbuzzMiniscoreLatestPerformance>,
-    // Value is not always present
     // pub match_udrs: CricbuzzMiniscoreMatchUdrs,
     pub overs_rem: Option<f32>,
     pub status: String,
@@ -282,6 +286,7 @@ pub struct CricbuzzMiniscore {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct CricbuzzJson {
+    /* Unused Field */
     // pub commentary_list: Vec<CricbuzzCommentary>,
     pub match_header: CricbuzzMatchHeader,
     pub miniscore: CricbuzzMiniscore,
