@@ -36,10 +36,11 @@ OPTIONS:
 
 ## Keyboard Bindings
 
-| Key          | Description           |
-| ------------ | --------------------- |
-| <kbd>↑</kbd> | Scroll scorecard up   |
-| <kbd>↓</kbd> | Scroll scorecard down |
+| Key                         | Description           |
+| --------------------------- | --------------------- |
+| <kbd>↑</kbd>                | Scroll scorecard up   |
+| <kbd>↓</kbd>                | Scroll scorecard down |
+| <kbd>←</kbd> & <kbd>→</kbd> | Switch tabs/matches   |
 
 ## License
 
