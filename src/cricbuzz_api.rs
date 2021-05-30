@@ -78,6 +78,7 @@ pub struct CricbuzzCommentary {
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CricbuzzMatchHeaderTossResults {
     pub toss_winner_id: u32,
     pub toss_winner_name: String,
@@ -85,6 +86,7 @@ pub struct CricbuzzMatchHeaderTossResults {
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CricbuzzMatchHeaderResults {
     pub winning_team: String,
     pub win_by_runs: bool,
@@ -92,6 +94,7 @@ pub struct CricbuzzMatchHeaderResults {
 }
 
 #[derive(Debug, Deserialize)]
+#[serde(rename_all = "camelCase")]
 pub struct CricbuzzMatchHeaderRevisedTarget {
     pub reason: String,
 }
@@ -110,7 +113,7 @@ pub struct CricbuzzMatchHeaderMatchTeamInfo {
 pub struct CricbuzzMatchHeaderTeam {
     pub id: u32,
     pub name: String,
-    pub player_details: Vec<String>,
+    // pub player_details: Vec<String>,
     pub short_name: String,
 }
 
@@ -125,16 +128,16 @@ pub struct CricbuzzMatchHeader {
     pub domestic: bool,
     pub match_start_timestamp: u64,
     pub match_complete_timestamp: u64,
-    pub day_night: bool,
+    pub day_night: Option<bool>,
     pub year: u32,
-    pub day_number: u32,
+    pub day_number: Option<u32>,
     pub state: String,
     pub status: String,
     pub toss_results: CricbuzzMatchHeaderTossResults,
-    pub result: CricbuzzMatchHeaderResults,
-    pub revised_target: CricbuzzMatchHeaderRevisedTarget,
-    pub players_of_the_match: Vec<String>,
-    pub players_of_the_series: Vec<String>,
+    pub result: Option<CricbuzzMatchHeaderResults>,
+    pub revised_target: Option<CricbuzzMatchHeaderRevisedTarget>,
+    // pub players_of_the_match: Vec<String>,
+    // pub players_of_the_series: Vec<String>,
     pub match_team_info: Vec<CricbuzzMatchHeaderMatchTeamInfo>,
     pub is_match_not_covered: bool,
     pub team1: CricbuzzMatchHeaderTeam,
@@ -270,10 +273,8 @@ pub struct CricbuzzMiniscore {
     pub last_wicket: Option<String>,
     pub match_score_details: CricbuzzMiniscoreMatchScoreDetails,
     pub latest_performance: Vec<CricbuzzMiniscoreLatestPerformance>,
-    // ppData: Not parsed
-    // TODO: Value is not always present
+    // Value is not always present
     // pub match_udrs: CricbuzzMiniscoreMatchUdrs,
-    // overSummaryList: Not parsed
     pub overs_rem: Option<f32>,
     pub status: String,
 }
@@ -282,7 +283,7 @@ pub struct CricbuzzMiniscore {
 #[serde(rename_all = "camelCase")]
 pub struct CricbuzzJson {
     // pub commentary_list: Vec<CricbuzzCommentary>,
-    // pub match_header: CricbuzzMatchHeader,
+    pub match_header: CricbuzzMatchHeader,
     pub miniscore: CricbuzzMiniscore,
     pub page: String,
     pub enable_no_content: bool,
@@ -415,5 +416,13 @@ impl CricbuzzJson {
 
     pub fn match_format(&self) -> &str {
         &self.miniscore.match_score_details.match_format
+    }
+
+    pub fn home_team_name(&self) -> &str {
+        &self.match_header.team1.short_name
+    }
+
+    pub fn away_team_name(&self) -> &str {
+        &self.match_header.team2.short_name
     }
 }
