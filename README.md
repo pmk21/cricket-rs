@@ -31,8 +31,8 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-    -m, --match-id <ID given to the match by Cricbuzz>    View live score of a selected match only [default: 0]
-    -t, --tick-rate <milliseconds>                        Sets match details refresh rate [default: 10000]
+    -m, --match-id <ID>               ID of the match to follow live [default: 0]
+    -t, --tick-rate <MILLISECONDS>    Sets match details refresh rate [default: 10000]
 ```
 
 * How to get the match ID -

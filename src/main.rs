@@ -27,7 +27,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             clap::Arg::with_name("tick-rate")
                 .short("t")
                 .long("tick-rate")
-                .value_name("milliseconds")
+                .value_name("MILLISECONDS")
                 .help("Sets match details refresh rate")
                 .default_value("10000")
                 .takes_value(true),
@@ -36,8 +36,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
             clap::Arg::with_name("match-id")
                 .short("m")
                 .long("match-id")
-                .value_name("ID given to the match by Cricbuzz")
-                .help("View live score of a selected match only")
+                .value_name("ID")
+                .help("ID of the match to follow live")
                 .default_value("0")
                 .takes_value(true),
         )
