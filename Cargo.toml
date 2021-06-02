@@ -1,6 +1,6 @@
 [package]
 name = "cricket-rs"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["pmk21 <prithvikrishna49@gmail.com>"]
 edition = "2018"
 homepage = "https://github.com/pmk21/cricket-rs"
