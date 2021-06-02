@@ -35,6 +35,7 @@ OPTIONS:
     -t, --tick-rate <MILLISECONDS>    Sets match details refresh rate [default: 10000]
 ```
 
+* **For Windows Users -** I suggest using [Windows Terminal](https://github.com/Microsoft/Terminal) and Powershell.
 * How to get the match ID -
   * Go to the cricbuzz page showing the match live.
   * From the URL of the page extract the match ID.
