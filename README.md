@@ -4,7 +4,7 @@
 
 A terminal based fast and optimized live cricket score viewer.
 
-![Terminal UI for cricket-rs](examples/cricket-rs-screenshot.png)
+![Terminal UI for cricket-rs](assets/cricket-rs-screenshot.png)
 
 ## Supported Operating Systems
 
