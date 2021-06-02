@@ -1,6 +1,4 @@
-# unreleased
-
-## Features
+# v0.1.1
 
 ## Bugfixes
 
