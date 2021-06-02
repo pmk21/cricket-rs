@@ -520,7 +520,7 @@ fn format_scorecard_info(scorecard: &[MatchInningsInfo]) -> Vec<Spans> {
         for b in &info.bowler_details {
             text.push(Spans::from(format!(
                 "{:<30} {:<5} {:<3} {:<3} {:<2} {:<2} {:<2} {:<6}",
-                b.name, b.overs, b.maidens, b.runs, b.wickets, b.no_balls, b.wickets, b.economy
+                b.name, b.overs, b.maidens, b.runs, b.wickets, b.no_balls, b.wides, b.economy
             )));
         }
 
@@ -633,6 +633,52 @@ mod test {
         let match_short_name = "BAN vs SL".to_string();
         let api_link = "".to_string();
         let match_id = 36096;
+
+        let match_info = create_match_info(match_short_name, match_id, api_link, json, scorecard);
+
+        app.matches_info.push(match_info);
+
+        let width = 125;
+        let height = 35;
+        let mut terminal = get_terminal(width, height);
+        let mut ui_state = UiState::new(1);
+
+        terminal
+            .draw(|mut f| draw_ui(&mut f, &app, &mut ui_state))
+            .unwrap();
+
+        let out = terminal.backend().buffer().content().to_vec();
+        let out = format_backend(out, width);
+
+        let mut settings = insta::Settings::clone_current();
+        settings.set_snapshot_path(SNAPSHOTS_PATH);
+
+        settings.bind(|| {
+            insta::assert_display_snapshot!(out);
+        });
+    }
+
+    #[test]
+    fn test_test_first_inngs_draw_ui() {
+        let mut app = App::default();
+
+        let scrd_data = fs::read_to_string(format!(
+            "{}{}",
+            TEST_FILES_PATH, "cricbuzz_test_scorecard_first_innings.txt"
+        ))
+        .unwrap();
+        let json_data = fs::read_to_string(format!(
+            "{}{}",
+            TEST_FILES_PATH, "cricbuzz_test_first_innings.json"
+        ))
+        .unwrap();
+
+        let json: CricbuzzJson = serde_json::from_str(&json_data).unwrap();
+        let mut scorecard = vec![];
+        parse_scorecard_from_file(&scrd_data, &mut scorecard);
+        let match_short_name = "ENG vs NZ".to_string();
+        let api_link = "".to_string();
+        let match_id = 33806;
 
         let match_info = create_match_info(match_short_name, match_id, api_link, json, scorecard);
 

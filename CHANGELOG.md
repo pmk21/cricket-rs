@@ -1,3 +1,15 @@
+# unreleased
+
+## Features
+
+## Bugfixes
+
+* Fixed a bug which showed wrong wides in the scorecard. see [#2](https://github.com/pmk21/cricket-rs/pull/2) (@pmk21).
+
+## Other
+
+* Added a test for test match format UI render for one innings. see [#2](https://github.com/pmk21/cricket-rs/pull/2) (@pmk21).
+
 # v0.1.0
 
 ## Features
