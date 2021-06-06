@@ -1,0 +1,1143 @@
+{
+  "commentaryList":[
+    {
+      "commText":" Wagner to Sibley, no run ",
+      "timestamp":1622991286449,
+      "ballNbr":192,
+      "overNumber":31.6,
+      "inningsId":4,
+      "event":"over-break,MAIDEN_OVER",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "overSeparator":{
+        "score":56,
+        "wickets":2,
+        "inningsId":4,
+        "o_summary":"0 0 0 0 0 0 ",
+        "runs":0,
+        "batStrikerIds":[
+          9313
+        ],
+        "batStrikerNames":[
+          "Dominic Sibley"
+        ],
+        "batStrikerRuns":19,
+        "batStrikerBalls":83,
+        "batNonStrikerIds":[
+          8019
+        ],
+        "batNonStrikerNames":[
+          "Joe Root"
+        ],
+        "batNonStrikerRuns":0,
+        "batNonStrikerBalls":3,
+        "bowlIds":[
+          2257
+        ],
+        "bowlNames":[
+          "Neil Wagner"
+        ],
+        "bowlOvers":6.0,
+        "bowlMaidens":4,
+        "bowlRuns":5,
+        "bowlWickets":1,
+        "timestamp":1622991286449,
+        "overNum":31.6,
+        "batTeamName":"ENG",
+        "event":"over-break"
+      },
+      "batsmanStriker":{
+        "batBalls":83,
+        "batDots":73,
+        "batFours":2,
+        "batId":9313,
+        "batName":"Dominic Sibley",
+        "batMins":144,
+        "batRuns":19,
+        "batSixes":0,
+        "batStrikeRate":22.89
+      },
+      "bowlerStriker":{
+        "bowlId":2257,
+        "bowlName":"Neil Wagner",
+        "bowlMaidens":4,
+        "bowlNoballs":0,
+        "bowlOvs":6.0,
+        "bowlRuns":5,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":0.8
+      }
+    },
+    {
+      "commText":" Wagner to Sibley, no run, full and a hint of shape back into the right-hander, Sibley presses across and turns it to mid-wicket ",
+      "timestamp":1622991258347,
+      "ballNbr":191,
+      "overNumber":31.5,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "batsmanStriker":{
+        "batBalls":82,
+        "batDots":72,
+        "batFours":2,
+        "batId":9313,
+        "batName":"Dominic Sibley",
+        "batMins":140,
+        "batRuns":19,
+        "batSixes":0,
+        "batStrikeRate":23.17
+      },
+      "bowlerStriker":{
+        "bowlId":2257,
+        "bowlName":"Neil Wagner",
+        "bowlMaidens":3,
+        "bowlNoballs":0,
+        "bowlOvs":5.5,
+        "bowlRuns":5,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":0.9
+      }
+    },
+    {
+      "commText":" Wagner to Sibley, no run, Wagner shortens his length around off, Sibley plays with a straight bat and finds mid-wicket ",
+      "timestamp":1622991221447,
+      "ballNbr":190,
+      "overNumber":31.4,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "batsmanStriker":{
+        "batBalls":81,
+        "batDots":71,
+        "batFours":2,
+        "batId":9313,
+        "batName":"Dominic Sibley",
+        "batMins":140,
+        "batRuns":19,
+        "batSixes":0,
+        "batStrikeRate":23.46
+      },
+      "bowlerStriker":{
+        "bowlId":2257,
+        "bowlName":"Neil Wagner",
+        "bowlMaidens":3,
+        "bowlNoballs":0,
+        "bowlOvs":5.4,
+        "bowlRuns":5,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":0.9
+      }
+    },
+    {
+      "commText":" Wagner to Sibley, no run, on a good length and just outside off, Sibley leans across and defends it back at the bowler ",
+      "timestamp":1622991191105,
+      "ballNbr":189,
+      "overNumber":31.3,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "batsmanStriker":{
+        "batBalls":80,
+        "batDots":70,
+        "batFours":2,
+        "batId":9313,
+        "batName":"Dominic Sibley",
+        "batMins":140,
+        "batRuns":19,
+        "batSixes":0,
+        "batStrikeRate":23.75
+      },
+      "bowlerStriker":{
+        "bowlId":2257,
+        "bowlName":"Neil Wagner",
+        "bowlMaidens":3,
+        "bowlNoballs":0,
+        "bowlOvs":5.3,
+        "bowlRuns":5,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":0.9
+      }
+    },
+    {
+      "commText":" Wagner to Sibley, no run, B0$, Wagner shortens his length and gets it to hold its line in that channel just outside off, drew Sibley forward into the push and beat his outside edge ",
+      "timestamp":1622991146861,
+      "ballNbr":188,
+      "overNumber":31.2,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        "bold":{
+          "formatId":[
+            "B0$"
+          ],
+          "formatValue":[
+            "nicely bowled"
+          ]
+        }
+      },
+      "batsmanStriker":{
+        "batBalls":79,
+        "batDots":69,
+        "batFours":2,
+        "batId":9313,
+        "batName":"Dominic Sibley",
+        "batMins":140,
+        "batRuns":19,
+        "batSixes":0,
+        "batStrikeRate":24.05
+      },
+      "bowlerStriker":{
+        "bowlId":2257,
+        "bowlName":"Neil Wagner",
+        "bowlMaidens":3,
+        "bowlNoballs":0,
+        "bowlOvs":5.2,
+        "bowlRuns":5,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":0.9
+      }
+    },
+    {
+      "commText":" Wagner to Sibley, no run, fraction fuller and shaping away from outside off, Sibley has a limp poke at that and is beaten on the outside edge ",
+      "timestamp":1622991113005,
+      "ballNbr":187,
+      "overNumber":31.1,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "batsmanStriker":{
+        "batBalls":78,
+        "batDots":68,
+        "batFours":2,
+        "batId":9313,
+        "batName":"Dominic Sibley",
+        "batMins":140,
+        "batRuns":19,
+        "batSixes":0,
+        "batStrikeRate":24.36
+      },
+      "bowlerStriker":{
+        "bowlId":2257,
+        "bowlName":"Neil Wagner",
+        "bowlMaidens":3,
+        "bowlNoballs":0,
+        "bowlOvs":5.1,
+        "bowlRuns":5,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":1.0
+      }
+    },
+    {
+      "commText":" Southee to Root, no run, on a good length and just outside off, Root plays close to his body and defends it to the off-side ",
+      "timestamp":1622991063393,
+      "ballNbr":186,
+      "overNumber":30.6,
+      "inningsId":4,
+      "event":"over-break,MAIDEN_OVER",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "overSeparator":{
+        "score":56,
+        "wickets":2,
+        "inningsId":4,
+        "o_summary":"0 0 W 0 0 0 ",
+        "runs":0,
+        "batStrikerIds":[
+          8019
+        ],
+        "batStrikerNames":[
+          "Joe Root"
+        ],
+        "batStrikerRuns":0,
+        "batStrikerBalls":3,
+        "batNonStrikerIds":[
+          9313
+        ],
+        "batNonStrikerNames":[
+          "Dominic Sibley"
+        ],
+        "batNonStrikerRuns":19,
+        "batNonStrikerBalls":77,
+        "bowlIds":[
+          1057
+        ],
+        "bowlNames":[
+          "Tim Southee"
+        ],
+        "bowlOvers":9.0,
+        "bowlMaidens":1,
+        "bowlRuns":21,
+        "bowlWickets":1,
+        "timestamp":1622991063393,
+        "overNum":30.6,
+        "batTeamName":"ENG",
+        "event":"over-break"
+      },
+      "batsmanStriker":{
+        "batBalls":3,
+        "batDots":3,
+        "batFours":0,
+        "batId":8019,
+        "batName":"Joe Root",
+        "batMins":0,
+        "batRuns":0,
+        "batSixes":0,
+        "batStrikeRate":0.0
+      },
+      "bowlerStriker":{
+        "bowlId":1057,
+        "bowlName":"Tim Southee",
+        "bowlMaidens":1,
+        "bowlNoballs":0,
+        "bowlOvs":9.0,
+        "bowlRuns":21,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":2.3
+      }
+    },
+    {
+      "commText":"B0$: It's clear by now that England are not looking to make a match out of this.",
+      "timestamp":1622991025502,
+      "ballNbr":0,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"",
+      "commentaryFormats":{
+        "bold":{
+          "formatId":[
+            "B0$"
+          ],
+          "formatValue":[
+            "Aditya"
+          ]
+        }
+      }
+    },
+    {
+      "commText":" Southee to Root, no run, fuller length delivery and floating away from outside off, Root watches it all along, lifts his bat and lets it go ",
+      "timestamp":1622991025501,
+      "ballNbr":185,
+      "overNumber":30.5,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "batsmanStriker":{
+        "batBalls":2,
+        "batDots":2,
+        "batFours":0,
+        "batId":8019,
+        "batName":"Joe Root",
+        "batMins":0,
+        "batRuns":0,
+        "batSixes":0,
+        "batStrikeRate":0.0
+      },
+      "bowlerStriker":{
+        "bowlId":1057,
+        "bowlName":"Tim Southee",
+        "bowlMaidens":0,
+        "bowlNoballs":0,
+        "bowlOvs":8.5,
+        "bowlRuns":21,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":2.4
+      }
+    },
+    {
+      "commText":"Three slips and a gully for Root",
+      "timestamp":1622990990617,
+      "ballNbr":0,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "batsmanStriker":{
+        "batBalls":0,
+        "batFours":0,
+        "batId":0,
+        "batName":"",
+        "batRuns":0,
+        "batSixes":0
+      },
+      "bowlerStriker":{
+        "bowlId":0,
+        "bowlName":"",
+        "bowlMaidens":0,
+        "bowlNoballs":0,
+        "bowlOvs":0.0,
+        "bowlRuns":0,
+        "bowlWides":0,
+        "bowlWkts":0
+      }
+    },
+    {
+      "commText":" Southee to Root, no run, Southee goes for the inswinger first-up, it's very full and nipped back in, but Root has it covered as he turjned it to the on-side ",
+      "timestamp":1622990987617,
+      "ballNbr":184,
+      "overNumber":30.4,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "batsmanStriker":{
+        "batBalls":1,
+        "batDots":1,
+        "batFours":0,
+        "batId":8019,
+        "batName":"Joe Root",
+        "batMins":0,
+        "batRuns":0,
+        "batSixes":0,
+        "batStrikeRate":0.0
+      },
+      "bowlerStriker":{
+        "bowlId":1057,
+        "bowlName":"Tim Southee",
+        "bowlMaidens":0,
+        "bowlNoballs":0,
+        "bowlOvs":8.4,
+        "bowlRuns":21,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":2.4
+      }
+    },
+    {
+      "commText":"B0$",
+      "timestamp":1622990922000,
+      "ballNbr":0,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        "bold":{
+          "formatId":[
+            "B0$"
+          ],
+          "formatValue":[
+            "Joe Root, right handed bat, comes to the crease"
+          ]
+        }
+      },
+      "batsmanStriker":{
+        "batBalls":0,
+        "batDots":0,
+        "batFours":0,
+        "batId":8019,
+        "batName":"Root",
+        "batMins":0,
+        "batRuns":0,
+        "batSixes":0,
+        "batStrikeRate":0.0
+      },
+      "bowlerStriker":{
+        "bowlId":2257,
+        "bowlName":"Wagner",
+        "bowlMaidens":0,
+        "bowlNoballs":0,
+        "bowlOvs":0.0,
+        "bowlRuns":0,
+        "bowlWides":0,
+        "bowlWkts":0,
+        "bowlEcon":0.0
+      }
+    },
+    {
+      "commText":" Southee to Zak Crawley, B0$ Caught by Nicholls!! Edged and caught! A low percentage shot and Crawley has thrown his wicket away for the second time in this match - nicely pitched up outside off and a hint of swing away from the right-hander, Crawley couldn't resist going after it, went with fairly hard hands and skewed a thick head high catch to Nicholls at gully - always an awkward catch, but he did well to go reverse cupped and held on in front of his face. A pair of soft dismissals and the pressure will be on Crawley in the next game. B1$ ",
+      "timestamp":1622990848714,
+      "ballNbr":183,
+      "overNumber":30.3,
+      "inningsId":4,
+      "event":"WICKET",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        "bold":{
+          "formatId":[
+            "B0$",
+            "B1$"
+          ],
+          "formatValue":[
+            "out",
+            "Zak Crawley c Nicholls b Southee 2(25)"
+          ]
+        }
+      },
+      "batsmanStriker":{
+        "batBalls":25,
+        "batDots":23,
+        "batFours":0,
+        "batId":12770,
+        "batName":"Zak Crawley",
+        "batMins":17,
+        "batRuns":2,
+        "batSixes":0,
+        "batStrikeRate":8.0
+      },
+      "bowlerStriker":{
+        "bowlId":1057,
+        "bowlName":"Tim Southee",
+        "bowlMaidens":0,
+        "bowlNoballs":0,
+        "bowlOvs":8.3,
+        "bowlRuns":21,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":2.5
+      }
+    },
+    {
+      "commText":" Southee to Zak Crawley, B0$ Caught!! ",
+      "timestamp":1622990847793,
+      "ballNbr":0,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        "bold":{
+          "formatId":[
+            "B0$"
+          ],
+          "formatValue":[
+            "THATS OUT!!"
+          ]
+        }
+      },
+      "batsmanStriker":{
+        "batBalls":0,
+        "batDots":0,
+        "batFours":0,
+        "batId":0,
+        "batName":"",
+        "batMins":0,
+        "batRuns":0,
+        "batSixes":0,
+        "batStrikeRate":0.0
+      },
+      "bowlerStriker":{
+        "bowlId":2257,
+        "bowlName":"Wagner",
+        "bowlMaidens":0,
+        "bowlNoballs":0,
+        "bowlOvs":0.0,
+        "bowlRuns":0,
+        "bowlWides":0,
+        "bowlWkts":0,
+        "bowlEcon":0.0
+      }
+    },
+    {
+      "commText":" Southee to Zak Crawley, no run, fuller length delivery outside off, Crawley presses forward and defends it to the off-side ",
+      "timestamp":1622990785236,
+      "ballNbr":182,
+      "overNumber":30.2,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "batsmanStriker":{
+        "batBalls":24,
+        "batDots":22,
+        "batFours":0,
+        "batId":12770,
+        "batName":"Zak Crawley",
+        "batMins":17,
+        "batRuns":2,
+        "batSixes":0,
+        "batStrikeRate":8.33
+      },
+      "bowlerStriker":{
+        "bowlId":1057,
+        "bowlName":"Tim Southee",
+        "bowlMaidens":0,
+        "bowlNoballs":0,
+        "bowlOvs":8.2,
+        "bowlRuns":21,
+        "bowlWides":0,
+        "bowlWkts":0,
+        "bowlEcon":2.5
+      }
+    },
+    {
+      "commText":" Southee to Zak Crawley, no run, on a good length and shaping away from the right-hander, left alone ",
+      "timestamp":1622990747725,
+      "ballNbr":181,
+      "overNumber":30.1,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "batsmanStriker":{
+        "batBalls":23,
+        "batDots":21,
+        "batFours":0,
+        "batId":12770,
+        "batName":"Zak Crawley",
+        "batMins":17,
+        "batRuns":2,
+        "batSixes":0,
+        "batStrikeRate":8.7
+      },
+      "bowlerStriker":{
+        "bowlId":1057,
+        "bowlName":"Tim Southee",
+        "bowlMaidens":0,
+        "bowlNoballs":0,
+        "bowlOvs":8.1,
+        "bowlRuns":21,
+        "bowlWides":0,
+        "bowlWkts":0,
+        "bowlEcon":2.6
+      }
+    },
+    {
+      "commText":"B0$",
+      "timestamp":1622990740077,
+      "ballNbr":0,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        "bold":{
+          "formatId":[
+            "B0$"
+          ],
+          "formatValue":[
+            "Tim Southee [8.0-0-21-0] is back into the attack"
+          ]
+        }
+      },
+      "batsmanStriker":{
+        "batBalls":22,
+        "batDots":0,
+        "batFours":0,
+        "batId":12770,
+        "batName":"Zak Crawley",
+        "batMins":0,
+        "batRuns":2,
+        "batSixes":0,
+        "batStrikeRate":9.09
+      },
+      "bowlerStriker":{
+        "bowlId":2257,
+        "bowlName":"Wagner",
+        "bowlMaidens":0,
+        "bowlNoballs":0,
+        "bowlOvs":0.0,
+        "bowlRuns":0,
+        "bowlWides":0,
+        "bowlWkts":0,
+        "bowlEcon":0.0
+      }
+    },
+    {
+      "commText":"Southee for a short burst before tea",
+      "timestamp":1622990686786,
+      "ballNbr":0,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "batsmanStriker":{
+        "batBalls":0,
+        "batFours":0,
+        "batId":0,
+        "batName":"",
+        "batRuns":0,
+        "batSixes":0
+      },
+      "bowlerStriker":{
+        "bowlId":0,
+        "bowlName":"",
+        "bowlMaidens":0,
+        "bowlNoballs":0,
+        "bowlOvs":0.0,
+        "bowlRuns":0,
+        "bowlWides":0,
+        "bowlWkts":0
+      }
+    },
+    {
+      "commText":" Wagner to Zak Crawley, 1 run, B0$, the inswinger and Crawley didn't spot it, closed the bat-face on the whip, gets a big leading edge that rolls to the right of cover-point, was in the air for a while, but bounced well in front of the fielder ",
+      "timestamp":1622990683786,
+      "ballNbr":180,
+      "overNumber":29.6,
+      "inningsId":4,
+      "event":"over-break",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        "bold":{
+          "formatId":[
+            "B0$"
+          ],
+          "formatValue":[
+            "streaky"
+          ]
+        }
+      },
+      "overSeparator":{
+        "score":56,
+        "wickets":1,
+        "inningsId":4,
+        "o_summary":"0 0 0 0 0 1 ",
+        "runs":1,
+        "batStrikerIds":[
+          12770
+        ],
+        "batStrikerNames":[
+          "Zak Crawley"
+        ],
+        "batStrikerRuns":2,
+        "batStrikerBalls":22,
+        "batNonStrikerIds":[
+          9313
+        ],
+        "batNonStrikerNames":[
+          "Dominic Sibley"
+        ],
+        "batNonStrikerRuns":19,
+        "batNonStrikerBalls":77,
+        "bowlIds":[
+          2257
+        ],
+        "bowlNames":[
+          "Neil Wagner"
+        ],
+        "bowlOvers":5.0,
+        "bowlMaidens":3,
+        "bowlRuns":5,
+        "bowlWickets":1,
+        "timestamp":1622990683786,
+        "overNum":29.6,
+        "batTeamName":"ENG",
+        "event":"over-break"
+      },
+      "batsmanStriker":{
+        "batBalls":22,
+        "batDots":20,
+        "batFours":0,
+        "batId":12770,
+        "batName":"Zak Crawley",
+        "batMins":17,
+        "batRuns":2,
+        "batSixes":0,
+        "batStrikeRate":9.09
+      },
+      "bowlerStriker":{
+        "bowlId":2257,
+        "bowlName":"Neil Wagner",
+        "bowlMaidens":3,
+        "bowlNoballs":0,
+        "bowlOvs":5.0,
+        "bowlRuns":5,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":1.0
+      }
+    },
+    {
+      "commText":"B0$: NZ might just have an edge over Virat Kohli's Team India because of the wonderful match practice they are getting through this test series against England..that too just before the all imp WTC final.",
+      "timestamp":1622990640913,
+      "ballNbr":0,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"",
+      "commentaryFormats":{
+        "bold":{
+          "formatId":[
+            "B0$"
+          ],
+          "formatValue":[
+            "Chethan C R"
+          ]
+        }
+      }
+    },
+    {
+      "commText":" Wagner to Zak Crawley, no run, Wagner pushes one fuller and wider of off Crawley doesn't nee dto play those, left alone ",
+      "timestamp":1622990640912,
+      "ballNbr":179,
+      "overNumber":29.5,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "batsmanStriker":{
+        "batBalls":21,
+        "batDots":20,
+        "batFours":0,
+        "batId":12770,
+        "batName":"Zak Crawley",
+        "batMins":17,
+        "batRuns":1,
+        "batSixes":0,
+        "batStrikeRate":4.76
+      },
+      "bowlerStriker":{
+        "bowlId":2257,
+        "bowlName":"Neil Wagner",
+        "bowlMaidens":3,
+        "bowlNoballs":0,
+        "bowlOvs":4.5,
+        "bowlRuns":4,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":0.8
+      }
+    },
+    {
+      "commText":" Wagner to Zak Crawley, no run, Wagner shortens his length and angles one across Crawley, left alone ",
+      "timestamp":1622990606871,
+      "ballNbr":178,
+      "overNumber":29.4,
+      "inningsId":4,
+      "event":"NONE",
+      "batTeamName":"ENG",
+      "commentaryFormats":{
+        
+      },
+      "batsmanStriker":{
+        "batBalls":20,
+        "batDots":19,
+        "batFours":0,
+        "batId":12770,
+        "batName":"Zak Crawley",
+        "batMins":17,
+        "batRuns":1,
+        "batSixes":0,
+        "batStrikeRate":5.0
+      },
+      "bowlerStriker":{
+        "bowlId":2257,
+        "bowlName":"Neil Wagner",
+        "bowlMaidens":3,
+        "bowlNoballs":0,
+        "bowlOvs":4.4,
+        "bowlRuns":4,
+        "bowlWides":0,
+        "bowlWkts":1,
+        "bowlEcon":0.9
+      }
+    }
+  ],
+  "matchHeader":{
+    "matchId":33806,
+    "matchDescription":"1st Test",
+    "matchFormat":"TEST",
+    "matchType":"International",
+    "complete":false,
+    "domestic":false,
+    "matchStartTimestamp":1622628000000,
+    "matchCompleteTimestamp":1622937600000,
+    "dayNight":false,
+    "year":2021,
+    "dayNumber":5,
+    "state":"In Progress",
+    "status":"Day 5: 2nd Session",
+    "tossResults":{
+      "tossWinnerId":13,
+      "tossWinnerName":"New Zealand",
+      "decision":"Batting"
+    },
+    "result":{
+      "winningTeam":"",
+      "winByRuns":false,
+      "winByInnings":false
+    },
+    "revisedTarget":{
+      "reason":""
+    },
+    "playersOfTheMatch":[
+      
+    ],
+    "playersOfTheSeries":[
+      
+    ],
+    "matchTeamInfo":[
+      {
+        "battingTeamId":13,
+        "battingTeamShortName":"NZ",
+        "bowlingTeamId":9,
+        "bowlingTeamShortName":"ENG"
+      },
+      {
+        "battingTeamId":9,
+        "battingTeamShortName":"ENG",
+        "bowlingTeamId":13,
+        "bowlingTeamShortName":"NZ"
+      },
+      {
+        "battingTeamId":13,
+        "battingTeamShortName":"NZ",
+        "bowlingTeamId":9,
+        "bowlingTeamShortName":"ENG"
+      },
+      {
+        "battingTeamId":9,
+        "battingTeamShortName":"ENG",
+        "bowlingTeamId":13,
+        "bowlingTeamShortName":"NZ"
+      }
+    ],
+    "isMatchNotCovered":false,
+    "team1":{
+      "id":9,
+      "name":"England",
+      "playerDetails":[
+        
+      ],
+      "shortName":"ENG"
+    },
+    "team2":{
+      "id":13,
+      "name":"New Zealand",
+      "playerDetails":[
+        
+      ],
+      "shortName":"NZ"
+    },
+    "seriesDesc":"New Zealand tour of England, 2021",
+    "seriesId":3413,
+    "seriesName":"New Zealand tour of England, 2021"
+  },
+  "miniscore":{
+    "inningsId":4,
+    "batsmanStriker":{
+      "batBalls":3,
+      "batDots":3,
+      "batFours":0,
+      "batId":8019,
+      "batName":"Joe Root",
+      "batMins":5,
+      "batRuns":0,
+      "batSixes":0,
+      "batStrikeRate":0.0
+    },
+    "batsmanNonStriker":{
+      "batBalls":83,
+      "batDots":73,
+      "batFours":2,
+      "batId":9313,
+      "batName":"Dominic Sibley",
+      "batMins":144,
+      "batRuns":19,
+      "batSixes":0,
+      "batStrikeRate":22.89
+    },
+    "batTeam":{
+      "teamId":9,
+      "teamScore":56,
+      "teamWkts":2
+    },
+    "bowlerStriker":{
+      "bowlId":1057,
+      "bowlName":"Tim Southee",
+      "bowlMaidens":1,
+      "bowlNoballs":0,
+      "bowlOvs":9.0,
+      "bowlRuns":21,
+      "bowlWides":0,
+      "bowlWkts":1,
+      "bowlEcon":2.33
+    },
+    "bowlerNonStriker":{
+      "bowlId":2257,
+      "bowlName":"Neil Wagner",
+      "bowlMaidens":4,
+      "bowlNoballs":0,
+      "bowlOvs":6.0,
+      "bowlRuns":5,
+      "bowlWides":0,
+      "bowlWkts":1,
+      "bowlEcon":0.83
+    },
+    "overs":31.6,
+    "recentOvsStats":"...  | 0 0 W 0 0 0  | 0 0 0 0 0 0",
+    "target":273,
+    "partnerShip":{
+      "balls":9,
+      "runs":0
+    },
+    "currentRunRate":1.75,
+    "requiredRunRate":0.0,
+    "lastWicket":"Zak Crawley  c Nicholls b Southee 2(25)  - 56/2 in 30.3 ov.",
+    "matchScoreDetails":{
+      "matchId":33806,
+      "inningsScoreList":[
+        {
+          "inningsId":4,
+          "batTeamId":9,
+          "batTeamName":"ENG",
+          "score":56,
+          "wickets":2,
+          "overs":31.6,
+          "isDeclared":false,
+          "isFollowOn":false
+        },
+        {
+          "inningsId":3,
+          "batTeamId":13,
+          "batTeamName":"NZ",
+          "score":169,
+          "wickets":6,
+          "overs":52.3,
+          "isDeclared":true,
+          "isFollowOn":false
+        },
+        {
+          "inningsId":2,
+          "batTeamId":9,
+          "batTeamName":"ENG",
+          "score":275,
+          "wickets":10,
+          "overs":101.1,
+          "isDeclared":false,
+          "isFollowOn":false
+        },
+        {
+          "inningsId":1,
+          "batTeamId":13,
+          "batTeamName":"NZ",
+          "score":378,
+          "wickets":10,
+          "overs":122.4,
+          "isDeclared":false,
+          "isFollowOn":false
+        }
+      ],
+      "tossResults":{
+        "tossWinnerId":13,
+        "tossWinnerName":"New Zealand",
+        "decision":"Batting"
+      },
+      "matchTeamInfo":[
+        {
+          "battingTeamId":13,
+          "battingTeamShortName":"NZ",
+          "bowlingTeamId":9,
+          "bowlingTeamShortName":"ENG"
+        },
+        {
+          "battingTeamId":9,
+          "battingTeamShortName":"ENG",
+          "bowlingTeamId":13,
+          "bowlingTeamShortName":"NZ"
+        },
+        {
+          "battingTeamId":13,
+          "battingTeamShortName":"NZ",
+          "bowlingTeamId":9,
+          "bowlingTeamShortName":"ENG"
+        },
+        {
+          "battingTeamId":9,
+          "battingTeamShortName":"ENG",
+          "bowlingTeamId":13,
+          "bowlingTeamShortName":"NZ"
+        }
+      ],
+      "isMatchNotCovered":false,
+      "matchFormat":"TEST",
+      "state":"In Progress",
+      "customStatus":"Day 5: 2nd Session - England need 217 runs",
+      "highlightedTeamId":9
+    },
+    "latestPerformance":[
+      {
+        "runs":9,
+        "wkts":2,
+        "label":"Last 10 overs"
+      }
+    ],
+    "ppData":{
+      
+    },
+    "matchUdrs":{
+      "matchId":33806,
+      "inningsId":4,
+      "timestamp":"2021-06-06T13:53:08.135Z",
+      "team1Id":9,
+      "team1Remaining":3,
+      "team1Successful":0,
+      "team1Unsuccessful":0,
+      "team2Id":13,
+      "team2Remaining":2,
+      "team2Successful":0,
+      "team2Unsuccessful":1
+    },
+    "overSummaryList":[
+      
+    ],
+    "oversRem":43.0,
+    "status":"Day 5: 2nd Session - England need 217 runs"
+  },
+  "commentarySnippetList":[
+    {
+      "commId":58447,
+      "matchId":33806,
+      "inningsId":4,
+      "infraType":"Comment - User",
+      "headline":"Aditya",
+      "content":"It's clear by now that England are not looking to make a match out of this.",
+      "timestamp":1622991025502,
+      "parsedContent":[
+        
+      ],
+      "isLive":false
+    },
+    {
+      "commId":58446,
+      "matchId":33806,
+      "inningsId":4,
+      "infraType":"Comment - User",
+      "headline":"Chethan C R",
+      "content":"NZ might just have an edge over Virat Kohli's Team India because of the wonderful match practice they are getting through this test series against England..that too just before the all imp WTC final.",
+      "timestamp":1622990640913,
+      "parsedContent":[
+        
+      ],
+      "isLive":false
+    }
+  ],
+  "page":"commentary",
+  "enableNoContent":false
+}
