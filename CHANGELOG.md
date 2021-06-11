@@ -1,3 +1,10 @@
+# unreleased
+
+## Other
+
+* Increase time between updates to 40 seconds. see[#3](https://github.com/pmk21/cricket-rs/issues/3) (@pmk21).
+
+
 # v0.1.1
 
 ## Bugfixes
