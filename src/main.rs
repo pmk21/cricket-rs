@@ -29,7 +29,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .long("tick-rate")
                 .value_name("MILLISECONDS")
                 .help("Sets match details refresh rate")
-                .default_value("10000")
+                .default_value("40000")
                 .takes_value(true),
         )
         .arg(
@@ -47,7 +47,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .value_of("tick-rate")
         .unwrap()
         .parse()
-        .unwrap_or(10000);
+        .unwrap_or(40000);
 
     let match_id = matches.value_of("match-id").unwrap().parse().unwrap_or(0);
 
