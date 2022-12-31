@@ -67,8 +67,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     loop {
         if !app.matches_info.is_empty() {
-            terminal.draw(|mut f| {
-                draw_ui(&mut f, &app, &mut ui_state);
+            terminal.draw(|f| {
+                draw_ui(f, &app, &mut ui_state);
             })?;
         } else {
             safely_close_tui()?;

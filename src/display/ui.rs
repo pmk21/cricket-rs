@@ -244,9 +244,9 @@ fn get_match_summary_info<'a>(app: &'a App, ui_state: &'a mut UiState) -> Vec<Sp
     let mut scores = vec![];
 
     if msd.match_format == "TEST" {
-        get_test_match_summary_info(&mut scores, &app, ui_state);
+        get_test_match_summary_info(&mut scores, app, ui_state);
     } else if msd.match_format == "ODI" || msd.match_format == "T20" {
-        get_lim_ovs_match_summary_info(&mut scores, &app, ui_state);
+        get_lim_ovs_match_summary_info(&mut scores, app, ui_state);
     }
 
     scores.push(Spans::from(Span::styled(
@@ -271,9 +271,9 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mu
                 format!(
                     "{} {}/{} d ({})",
                     msd.innings_score_list[0].bat_team_name.as_str(),
-                    msd.innings_score_list[0].score.to_string(),
-                    msd.innings_score_list[0].wickets.to_string(),
-                    msd.innings_score_list[0].overs.to_string(),
+                    msd.innings_score_list[0].score,
+                    msd.innings_score_list[0].wickets,
+                    msd.innings_score_list[0].overs,
                 ),
                 Style::default().add_modifier(Modifier::BOLD),
             )]));
@@ -282,10 +282,10 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mu
                 format!(
                     "{} {}/{} ({}) CRR: {}",
                     msd.innings_score_list[0].bat_team_name.as_str(),
-                    msd.innings_score_list[0].score.to_string(),
-                    msd.innings_score_list[0].wickets.to_string(),
-                    msd.innings_score_list[0].overs.to_string(),
-                    match_info.miniscore.current_run_rate.to_string(),
+                    msd.innings_score_list[0].score,
+                    msd.innings_score_list[0].wickets,
+                    msd.innings_score_list[0].overs,
+                    match_info.miniscore.current_run_rate,
                 ),
                 Style::default().add_modifier(Modifier::BOLD),
             )]));
@@ -308,10 +308,10 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mu
             format!(
                 "{} {}/{} ({}) CRR: {}",
                 bat_team_name,
-                teams[bat_team_name][0].score.to_string(),
-                teams[bat_team_name][0].wickets.to_string(),
-                teams[bat_team_name][0].overs.to_string(),
-                match_info.miniscore.current_run_rate.to_string(),
+                teams[bat_team_name][0].score,
+                teams[bat_team_name][0].wickets,
+                teams[bat_team_name][0].overs,
+                match_info.miniscore.current_run_rate,
             ),
             Style::default().add_modifier(Modifier::BOLD),
         )]));
@@ -320,8 +320,8 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mu
             format!(
                 "{} {}/{}",
                 bowl_team_name,
-                teams[bowl_team_name][0].score.to_string(),
-                teams[bowl_team_name][0].wickets.to_string(),
+                teams[bowl_team_name][0].score,
+                teams[bowl_team_name][0].wickets,
             ),
             Style::default().fg(Color::DarkGray),
         )]));
@@ -343,12 +343,12 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mu
             format!(
                 "{} {}/{} & {}/{} ({}) CRR: {}",
                 bat_team_name,
-                teams[bat_team_name][0].score.to_string(),
-                teams[bat_team_name][0].wickets.to_string(),
-                teams[bat_team_name][1].score.to_string(),
-                teams[bat_team_name][1].wickets.to_string(),
-                teams[bat_team_name][1].overs.to_string(),
-                match_info.miniscore.current_run_rate.to_string(),
+                teams[bat_team_name][0].score,
+                teams[bat_team_name][0].wickets,
+                teams[bat_team_name][1].score,
+                teams[bat_team_name][1].wickets,
+                teams[bat_team_name][1].overs,
+                match_info.miniscore.current_run_rate,
             ),
             Style::default().add_modifier(Modifier::BOLD),
         )]));
@@ -357,8 +357,8 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mu
             format!(
                 "{} {}/{}",
                 bowl_team_name,
-                teams[bowl_team_name][0].score.to_string(),
-                teams[bowl_team_name][0].wickets.to_string(),
+                teams[bowl_team_name][0].score,
+                teams[bowl_team_name][0].wickets,
             ),
             Style::default().fg(Color::DarkGray),
         )]));
@@ -380,10 +380,10 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mu
             format!(
                 "{} {}/{} & {}/{}",
                 bat_team_name,
-                teams[bat_team_name][0].score.to_string(),
-                teams[bat_team_name][0].wickets.to_string(),
-                teams[bat_team_name][1].score.to_string(),
-                teams[bat_team_name][1].wickets.to_string(),
+                teams[bat_team_name][0].score,
+                teams[bat_team_name][0].wickets,
+                teams[bat_team_name][1].score,
+                teams[bat_team_name][1].wickets,
             ),
             Style::default().add_modifier(Modifier::BOLD),
         )]));
@@ -392,10 +392,10 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mu
             format!(
                 "{} {}/{} & {}/{}",
                 bowl_team_name,
-                teams[bowl_team_name][0].score.to_string(),
-                teams[bowl_team_name][0].wickets.to_string(),
-                teams[bowl_team_name][1].score.to_string(),
-                teams[bowl_team_name][1].wickets.to_string(),
+                teams[bowl_team_name][0].score,
+                teams[bowl_team_name][0].wickets,
+                teams[bowl_team_name][1].score,
+                teams[bowl_team_name][1].wickets,
             ),
             Style::default().fg(Color::DarkGray),
         )]));
@@ -413,10 +413,10 @@ fn get_lim_ovs_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: 
             format!(
                 "{} {}/{} ({}) CRR: {}",
                 msd.innings_score_list[0].bat_team_name,
-                msd.innings_score_list[0].score.to_string(),
-                msd.innings_score_list[0].wickets.to_string(),
-                msd.innings_score_list[0].overs.to_string(),
-                match_info.miniscore.current_run_rate.to_string(),
+                msd.innings_score_list[0].score,
+                msd.innings_score_list[0].wickets,
+                msd.innings_score_list[0].overs,
+                match_info.miniscore.current_run_rate,
             ),
             Style::default().add_modifier(Modifier::BOLD),
         )]));
@@ -438,10 +438,10 @@ fn get_lim_ovs_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: 
             format!(
                 "{} {}/{} ({}) CRR: {}",
                 bat_team_name,
-                teams[bat_team_name][0].score.to_string(),
-                teams[bat_team_name][0].wickets.to_string(),
-                teams[bat_team_name][0].overs.to_string(),
-                match_info.miniscore.current_run_rate.to_string(),
+                teams[bat_team_name][0].score,
+                teams[bat_team_name][0].wickets,
+                teams[bat_team_name][0].overs,
+                match_info.miniscore.current_run_rate,
             ),
             Style::default().add_modifier(Modifier::BOLD),
         )]));
@@ -450,8 +450,8 @@ fn get_lim_ovs_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: 
             format!(
                 "{} {}/{}",
                 bowl_team_name,
-                teams[bowl_team_name][0].score.to_string(),
-                teams[bowl_team_name][0].wickets.to_string(),
+                teams[bowl_team_name][0].score,
+                teams[bowl_team_name][0].wickets,
             ),
             Style::default().fg(Color::DarkGray),
         )]));
