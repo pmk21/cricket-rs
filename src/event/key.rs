@@ -159,10 +159,14 @@ impl From<event::KeyEvent> for Key {
             event::KeyEvent {
                 code: event::KeyCode::Char(c),
                 modifiers: event::KeyModifiers::ALT,
+                kind: event::KeyEventKind::Press,
+                state: event::KeyEventState::NONE,
             } => Key::Alt(c),
             event::KeyEvent {
                 code: event::KeyCode::Char(c),
                 modifiers: event::KeyModifiers::CONTROL,
+                kind: event::KeyEventKind::Press,
+                state: event::KeyEventState::NONE,
             } => Key::Ctrl(c),
 
             event::KeyEvent {

@@ -23,16 +23,15 @@ A terminal based fast and optimized live cricket score viewer.
 ## Usage
 
 ```output
-USAGE:
-    cricket-rs [OPTIONS]
+Fast and optimized live cricket score viewer in the terminal
 
-FLAGS:
-    -h, --help       Prints help information
-    -V, --version    Prints version information
+Usage: cricket-rs [OPTIONS]
 
-OPTIONS:
-    -m, --match-id <ID>               ID of the match to follow live [default: 0]
-    -t, --tick-rate <MILLISECONDS>    Sets match details refresh rate [default: 10000]
+Options:
+  -t, --tick-rate <MILLISECONDS>  Sets match details refresh rate [default: 40000]
+  -m, --match-id <ID>             ID of the match to follow live [default: 0]
+  -h, --help                      Print help information
+  -V, --version                   Print version information
 ```
 
 * **For Windows Users -** I suggest using [Windows Terminal](https://github.com/Microsoft/Terminal) and Powershell.
