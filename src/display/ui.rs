@@ -319,9 +319,7 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mu
         scores.push(Spans::from(vec![Span::styled(
             format!(
                 "{} {}/{}",
-                bowl_team_name,
-                teams[bowl_team_name][0].score,
-                teams[bowl_team_name][0].wickets,
+                bowl_team_name, teams[bowl_team_name][0].score, teams[bowl_team_name][0].wickets,
             ),
             Style::default().fg(Color::DarkGray),
         )]));
@@ -356,9 +354,7 @@ fn get_test_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: &mu
         scores.push(Spans::from(vec![Span::styled(
             format!(
                 "{} {}/{}",
-                bowl_team_name,
-                teams[bowl_team_name][0].score,
-                teams[bowl_team_name][0].wickets,
+                bowl_team_name, teams[bowl_team_name][0].score, teams[bowl_team_name][0].wickets,
             ),
             Style::default().fg(Color::DarkGray),
         )]));
@@ -449,9 +445,7 @@ fn get_lim_ovs_match_summary_info(scores: &mut Vec<Spans>, app: &App, ui_state: 
         scores.push(Spans::from(vec![Span::styled(
             format!(
                 "{} {}/{}",
-                bowl_team_name,
-                teams[bowl_team_name][0].score,
-                teams[bowl_team_name][0].wickets,
+                bowl_team_name, teams[bowl_team_name][0].score, teams[bowl_team_name][0].wickets,
             ),
             Style::default().fg(Color::DarkGray),
         )]));
