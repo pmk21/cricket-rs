@@ -32,9 +32,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .default_value("40000")
                 .value_parser(value_parser!(u64))
                 .action(ArgAction::Set),
-            )
-            .arg(
-                Arg::new("match-id")
+        )
+        .arg(
+            Arg::new("match-id")
                 .short('m')
                 .long("match-id")
                 .value_name("ID")
